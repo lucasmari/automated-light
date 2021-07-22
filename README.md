@@ -8,15 +8,37 @@ Light version of [automated-deploy](https://github.com/lucasmari/automated-deplo
 
 ### Structure and Components
 
+### Architecture
+
+![](.images/Web%20App%20Reference%20Architecture.png)
+Made with [Cloudcraft](https://www.cloudcraft.co/)
+
 #### Infrastructure
+
+CDN
+
+- CloudFront
+
+CI/CD
+
+- CircleCI
 
 Cloud Provider
 
 - AWS
 
-CI/CD
+Containers
 
-- CircleCI
+- Docker
+
+Database & Storage
+
+- MongoDB
+- S3
+
+Monitoring
+
+- No clue yet :shrug:
 
 Provisioning
 
@@ -27,19 +49,6 @@ Provisioning
 - Production
   
   - Terraform
-
-Database & Storage
-
-- MongoDB
-- S3
-
-Containers
-
-- Docker
-
-Monitoring
-
-- No clue yet :shrug:
 
 #### Web Application
 
@@ -56,10 +65,6 @@ Backend (Ruby)
 - Puma (server)
 - Mongoid (ORM)
 
-### How It Works
-
-TODO (diagram)
-
 ## Getting Started
 
 ### Development
@@ -72,7 +77,7 @@ Prerequisites
 
 Deploy
 
-Run the script `./deploy.sh` in the root folder, then access the app at *localhost*. :clap:
+Run `docker-compose up -d --build` in the root folder, then access the app at *localhost*. :clap:
 
 #### Monitoring
 
@@ -82,8 +87,8 @@ TODO
 
 Prerequisites
 
-- [docker-compose 1.28.x](https://docs.docker.com/compose/install/)
 - [bundler 2.1.x](https://bundler.io/)
+- [docker-compose 1.28.x](https://docs.docker.com/compose/install/)
 - [rspec 3.9.x](https://rspec.info/)
 - [yarn 1.22.x](https://yarnpkg.com/getting-started/install)
 
@@ -107,8 +112,9 @@ Enter the *frontend* directory and run:
 
 Prerequisites
 
-- [CircleCI account](https://app.circleci.com/dashboard)
 - [AWS account](https://console.aws.amazon.com)
+- [aws-cli 2.x](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+- [CircleCI account](https://app.circleci.com/dashboard)
 - [terraform 0.14.x](https://www.terraform.io/downloads.html)
 
 Setup
@@ -119,6 +125,10 @@ Setup
 Deploy
 
 The deployment should trigger automatically after a push or merge to the master.
+
+Or you can run it manually with the script `./deploy.sh`.
+
+> :warning: Don't forget to destroy it later with `./destroy.sh`.
 
 ## Contributing
 
