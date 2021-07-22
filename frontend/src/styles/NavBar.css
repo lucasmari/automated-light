@@ -1,0 +1,146 @@
+@font-face {
+  font-family: 'Share Tech';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/sharetech/v10/7cHtv4Uyi5K0OeZ7bohU8H0JmA.woff2)
+    format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #202020;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1em;
+  border-bottom-color: #101010;
+}
+
+a {
+  text-decoration: none;
+  float: left;
+}
+
+.home-img {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.home-img:hover {
+  background-color: transparent;
+}
+
+.home {
+  font-family: 'Share Tech', sans-serif;
+  font-size: 1.4em;
+  color: #ffc;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  padding-right: 40px;
+  padding-left: 0;
+}
+
+.home:hover {
+  background-color: transparent;
+}
+
+.games-nav,
+.contact-nav,
+.about-nav {
+  font-size: 1.1em;
+  padding: 16px 20px;
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+}
+
+.games-nav:hover,
+.contact-nav:hover,
+.about-nav:hover {
+  color: #ffc;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1em;
+  border-bottom-color: #505050;
+}
+
+.active {
+  color: #ffc;
+  border-bottom-style: solid;
+  border-bottom-width: 0.1em;
+  border-bottom-color: #ffc;
+}
+
+.search-container {
+  float: left;
+}
+
+.search-container input[type='text'] {
+  padding: 6px;
+  margin-top: 10px;
+  margin-left: 20px;
+  font-size: 17px;
+  border: none;
+  color: white;
+  background: #101010;
+}
+
+.search-container button {
+  vertical-align: middle;
+  float: right;
+  padding: 6px;
+  margin-top: 10px;
+  margin-right: 16px;
+  background: #303030;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.search-container button:hover {
+  color: #696969;
+}
+
+@media screen and (max-width: 600px) {
+  .nav .search-container {
+    float: none;
+  }
+  .nav a,
+  .nav input[type='text'],
+  .nav .search-container button {
+    float: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding: 14px;
+  }
+  .nav input[type='text'] {
+    border: 1px solid #ffc;
+  }
+}
+
+.signin,
+.signout {
+  font-size: 1.1em;
+  padding: 16px 20px;
+  display: block;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  float: right;
+}
+
+.signin:hover,
+.signout:hover {
+  color: #ffc;
+}

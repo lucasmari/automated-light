@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  db:
+    build: database
+    restart: always
+  app-back:
+    build: backend
+    ports:
+      - '4000:4000'
+  app-front:
+    build: frontend
+    ports:
+      - '80:3000'
+    environment:
+      - REACT_APP_BACK_ADDRESS=http://localhost:4000/graphql
