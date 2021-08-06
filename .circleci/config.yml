@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@1.2.5
+
 jobs:
   node-tests:
     working_directory: ~/automated-light/frontend
@@ -12,7 +15,10 @@ jobs:
           name: install dependencies and run tests
           command: |
             yarn install
-            yarn jest
+            yarn jest --coverage
+      - codecov/upload:
+          file: { { coverage/coverage-final.json } }
+
   ruby-tests:
     working_directory: ~/automated-light/backend
     docker:
@@ -24,6 +30,7 @@ jobs:
           name: run tests
           command: |
             ./run_ci_tests.sh
+
   plan-apply:
     working_directory: ~/automated-light/infra
     docker:
@@ -91,6 +98,8 @@ workflows:
     jobs:
       - node-tests
       - ruby-tests
+  upload-to-codecov:
+    jobs:
   # prod:
   #   jobs:
   #     - plan-apply
