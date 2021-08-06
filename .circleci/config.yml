@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@1.2.5
+
 jobs:
   node-tests:
     working_directory: ~/automated-light/frontend
@@ -11,13 +14,10 @@ jobs:
       - run:
           name: install dependencies and run tests
           command: |
-            apk --no-cache add curl
             yarn install
             yarn jest --coverage
-      - run:
-          name: Upload coverage reports to Codecov
-          command: |
-            bash <(curl -s https://codecov.io/bash)
+      - codecov/upload:
+          file: "coverage/coverage-final.json"
 
   ruby-tests:
     working_directory: ~/automated-light/backend
