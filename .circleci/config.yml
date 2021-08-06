@@ -14,11 +14,11 @@ jobs:
       - run:
           name: install dependencies and run tests
           command: |
+            apk --no-cache add curl
             yarn install
             yarn jest --coverage
       - codecov/upload:
-          file: { { coverage/coverage-final.json } }
-
+          file: "coverage/coverage-final.json"
   ruby-tests:
     working_directory: ~/automated-light/backend
     docker:
@@ -98,8 +98,6 @@ workflows:
     jobs:
       - node-tests
       - ruby-tests
-  upload-to-codecov:
-    jobs:
   # prod:
   #   jobs:
   #     - plan-apply
