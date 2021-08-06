@@ -124,7 +124,7 @@ Setup
 
 Deploy
 
-The deployment should trigger automatically after a push or merge to the master.
+The deployment should trigger automatically after a push or merge to the main branch.
 
 Or you can run it manually with the script `./deploy.sh`, then access the app at the *frontend_public_dns*:3000 (Terraform output).
 
