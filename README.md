@@ -1,4 +1,4 @@
-# Automated Light &middot; ![](https://img.shields.io/badge/bundler-2.1%2B-red?logo=ruby) ![](https://img.shields.io/badge/docker--compose-1.28%2B-blue?logo=docker) ![](https://img.shields.io/badge/rspec-3.9%2B-red?logo=ruby) ![](https://img.shields.io/badge/yarn-1.22%2B-2188b6?logo=yarn) ![](https://img.shields.io/badge/terraform--cli-1.0%2B-blue?logo=terraform) ![](https://img.shields.io/badge/aws--cli-2.2%2B-orange?logo=amazon-aws)
+# Automated Light &middot; ![bunlder](https://img.shields.io/badge/bundler-2.1%2B-red?logo=ruby) ![docker-compose](https://img.shields.io/badge/docker--compose-1.28%2B-blue?logo=docker) ![rspec](https://img.shields.io/badge/rspec-3.9%2B-red?logo=ruby) ![yarn](https://img.shields.io/badge/yarn-1.22%2B-2188b6?logo=yarn) ![terraform-cli](https://img.shields.io/badge/terraform--cli-1.0%2B-blue?logo=terraform) ![aws-cli](https://img.shields.io/badge/aws--cli-2.2%2B-orange?logo=amazon-aws) [![codecov](https://codecov.io/gh/lucasmari/automated-light/branch/main/graph/badge.svg?token=BEF4A5B1IV)](https://codecov.io/gh/lucasmari/automated-light)
 
 Simple web app with an automated deploy (light) :v:
 
