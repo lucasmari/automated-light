@@ -7,6 +7,12 @@ development:
   options:
     raise_not_found_error: false
     log_level: debug
+production:
+  clients:
+    default:
+      database: mongoid_prod
+      hosts:
+        - <%= "#{ENV['DB_ADDRESS']}:27017" %>
 test:
   clients:
     default:

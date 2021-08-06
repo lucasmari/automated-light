@@ -17,13 +17,28 @@ class Application < Sinatra::Base
     register Sinatra::Reloader
 
     set :allow_origin, "http://localhost"
-    set :allow_methods, "POST"
+    set :allow_methods, "POST,OPTIONS"
     set :allow_headers, "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
-    set :expose_headers, "location,link"
+    set :expose_headers, "Content-Length,Content-Range"
+    set :max_age, "1728000"
+    set :allow_credentials, true
 
     use Rack::JSONBodyParser
 
     enable :logging
+  end
+
+  configure :production do
+    register Sinatra::Cors
+
+    set :allow_origin, "*"
+    set :allow_methods, "POST,OPTIONS"
+    set :allow_headers, "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+    set :expose_headers, "Content-Length,Content-Range"
+    set :max_age, "1728000"
+    set :allow_credentials, true
+
+    use Rack::JSONBodyParser
   end
 
   helpers do
