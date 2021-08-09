@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "40714598-6e4b-9aec-cd65-5216922a90ab"
+    bucket = "c4ef5d05-11ff-05e7-5590-39cf4b6ab9d5"
     key    = "app/terraform.tfstate"
     region = "us-east-1"
   }
@@ -20,7 +20,7 @@ data "template_file" "front_startup" {
   template = file("./scripts/front_startup.tpl")
   vars = {
     account_id   = var.account_id
-    back_address = module.ec2_backend.public_dns[0]
+    back_address = module.ec2_back.public_dns[0]
   }
 }
 
@@ -58,54 +58,48 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-module "ec2_frontend" {
+module "ec2_front" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.17.0"
 
-  name           = "prod-ec2-front"
+  name           = "front"
   instance_count = 1
 
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.micro"
-  vpc_security_group_ids = [module.front_sg.security_group_id]
+  vpc_security_group_ids = [module.sg_front.security_group_id]
   subnet_id              = module.vpc.public_subnets[0]
 
   iam_instance_profile = aws_iam_instance_profile.ec2.name
-
-  tags = {
-    Terraform   = "true"
-    Environment = "prod"
-  }
 
   key_name  = aws_key_pair.this.key_name
   user_data = data.template_file.front_startup.rendered
 
+  tags = var.tags
+
   depends_on = [
-    module.ec2_backend
+    module.ec2_back
   ]
 }
 
-module "ec2_backend" {
+module "ec2_back" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.17.0"
 
-  name           = "prod-ec2-back"
+  name           = "back"
   instance_count = 1
 
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.micro"
-  vpc_security_group_ids = [module.back_sg.security_group_id]
+  vpc_security_group_ids = [module.sg_back.security_group_id]
   subnet_id              = module.vpc.public_subnets[0]
 
   iam_instance_profile = aws_iam_instance_profile.ec2.name
 
-  tags = {
-    Terraform   = "true"
-    Environment = "prod"
-  }
-
   key_name  = aws_key_pair.this.key_name
   user_data = data.template_file.back_startup.rendered
+
+  tags = var.tags
 
   depends_on = [
     module.ec2_db
@@ -116,23 +110,20 @@ module "ec2_db" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.17.0"
 
-  name           = "prod-ec2-db"
+  name           = "db"
   instance_count = 1
 
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t3.micro"
-  vpc_security_group_ids = [module.db_sg.security_group_id]
+  vpc_security_group_ids = [module.sg_db.security_group_id]
   subnet_id              = module.vpc.private_subnets[0]
 
   iam_instance_profile = aws_iam_instance_profile.ec2.name
 
-  tags = {
-    Terraform   = "true"
-    Environment = "prod"
-  }
-
   key_name  = aws_key_pair.this.key_name
   user_data = data.template_file.db_startup.rendered
+
+  tags = var.tags
 }
 
 #-------------------------------------------------
@@ -140,7 +131,7 @@ module "ec2_db" {
 #-------------------------------------------------
 
 resource "aws_iam_role" "ec2" {
-  name = "ec2_role"
+  name = "ec2"
 
   assume_role_policy = <<EOF
 {
@@ -158,18 +149,18 @@ resource "aws_iam_role" "ec2" {
 }
 EOF
 
-  tags = {
-    project = "automated-light"
-  }
+  tags = var.tags
 }
 
 resource "aws_iam_instance_profile" "ec2" {
-  name = "ec2_profile"
+  name = "ec2"
   role = aws_iam_role.ec2.name
+
+  tags = var.tags
 }
 
 resource "aws_iam_role_policy" "ec2" {
-  name = "ec2_policy"
+  name = "ec2"
   role = aws_iam_role.ec2.id
 
   policy = <<EOF
@@ -194,11 +185,11 @@ EOF
 #               ===== [ SG ] =====               
 #-------------------------------------------------
 
-module "front_sg" {
+module "sg_front" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4"
 
-  name   = "prod-sg-front"
+  name   = "front"
   vpc_id = module.vpc.vpc_id
 
   ingress_with_cidr_blocks = [
@@ -214,13 +205,15 @@ module "front_sg" {
   }]
 
   egress_rules = ["all-all"]
+
+  tags = var.tags
 }
 
-module "back_sg" {
+module "sg_back" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4"
 
-  name   = "prod-sg-back"
+  name   = "back"
   vpc_id = module.vpc.vpc_id
 
   ingress_with_cidr_blocks = [
@@ -241,13 +234,15 @@ module "back_sg" {
   ]
 
   egress_rules = ["all-all"]
+
+  tags = var.tags
 }
 
-module "db_sg" {
+module "sg_db" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "~> 4"
 
-  name   = "prod-sg-db"
+  name   = "db"
   vpc_id = module.vpc.vpc_id
 
   ingress_with_source_security_group_id = [
@@ -255,11 +250,13 @@ module "db_sg" {
       from_port                = 27017
       to_port                  = 27017
       protocol                 = "tcp"
-      source_security_group_id = module.back_sg.security_group_id
+      source_security_group_id = module.sg_back.security_group_id
     },
   ]
 
   egress_rules = ["all-all"]
+
+  tags = var.tags
 }
 
 #-------------------------------------------------
@@ -270,7 +267,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.2"
 
-  name                 = "prod-vpc"
+  name                 = "main"
   cidr                 = var.vpc_cidr
   azs                  = data.aws_availability_zones.available.names
   public_subnets       = [var.public_subnet_cidr]
@@ -278,4 +275,6 @@ module "vpc" {
   enable_nat_gateway   = true
   single_nat_gateway   = true
   enable_dns_hostnames = true
+
+  tags = var.tags
 }

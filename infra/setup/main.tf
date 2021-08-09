@@ -21,6 +21,8 @@ resource "aws_s3_bucket" "terraform_state" {
       }
     }
   }
+
+  tags = var.tags
 }
 
 #-------------------------------------------------
@@ -31,7 +33,5 @@ resource "aws_ecr_repository" "repo" {
   name                 = "automated-light"
   image_tag_mutability = "MUTABLE"
 
-  tags = {
-    project = "automated-light"
-  }
+  tags = var.tags
 }

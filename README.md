@@ -6,59 +6,57 @@ Simple web app with an automated deploy (light) :v:
 
 Light version of [automated-deploy](https://github.com/lucasmari/automated-deploy).
 
-### Structure and Components
-
 ### Architecture
 
 ![](.images/Web%20App%20Reference%20Architecture.png)
 Made with [Cloudcraft](https://www.cloudcraft.co/)
 
-#### Infrastructure
+### Infrastructure
 
-CDN
+#### CDN
 
 - CloudFront
 
-CI/CD
+#### CI/CD
 
 - CircleCI
 
-Cloud Provider
+#### Cloud Provider
 
 - AWS
 
-Containers
+#### Containers
 
 - Docker
 
-Database & Storage
+#### Database & Storage
 
 - MongoDB
 - S3
 
-Monitoring
+#### Monitoring
 
 - No clue yet :shrug:
 
-Provisioning
+#### Provisioning
 
-- Development
+Development
 
-  - Docker-compose
+- Docker-compose
 
-- Production
+Production
   
-  - Terraform
+- Terraform
 
-#### Web Application
+### Web Application
 
-Frontend (JS, HTML, CSS)
+#### Frontend (JS, HTML, CSS)
 
 - Apollo (GraphQL client)
 - React (library)
 - Node.js (server)
 
-Backend (Ruby)
+#### Backend (Ruby)
 
 - GraphQL server
 - Sinatra (framework)
