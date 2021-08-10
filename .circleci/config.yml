@@ -29,7 +29,8 @@ jobs:
       - run:
           name: run tests
           command: |
-            ./run_ci_tests.sh
+            bundle install
+            ./run_unit_tests.sh
 
   plan-apply:
     working_directory: ~/automated-light/infra

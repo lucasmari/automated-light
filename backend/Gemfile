@@ -11,7 +11,9 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "sinatra-cors"
 group :test do
+  gem "codecov"
   gem "database_cleaner-mongoid"
   gem "factory_bot"
   gem "mongoid-rspec"
+  gem "simplecov"
 end
