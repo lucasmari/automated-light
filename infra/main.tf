@@ -62,7 +62,7 @@ module "ec2_front" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.17.0"
 
-  name           = "front"
+  name           = "app-front"
   instance_count = 1
 
   ami                    = data.aws_ami.ubuntu.id
@@ -86,7 +86,7 @@ module "ec2_back" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 2.17.0"
 
-  name           = "back"
+  name           = "app-back"
   instance_count = 1
 
   ami                    = data.aws_ami.ubuntu.id
