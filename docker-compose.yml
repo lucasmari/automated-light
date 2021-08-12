@@ -7,9 +7,13 @@ services:
     build: backend
     ports:
       - '4000:4000'
+    volumes:
+      - ./backend:/home/sinatra/app
   app-front:
     build: frontend
     ports:
       - '80:3000'
+    volumes:
+      - ./frontend:/home/react/app
     environment:
       - REACT_APP_BACK_ADDRESS=http://localhost:4000/graphql
