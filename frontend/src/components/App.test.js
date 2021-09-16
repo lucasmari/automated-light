@@ -120,7 +120,7 @@ it('navigates to /contact when you click Contact', () => {
   });
 
   expect(document.querySelector('.content-container').textContent).toBe(
-    'ContactEmail: easter.egg@gmail.comTel: 0118 999 881 999 119 7253'
+    'ContactEmail: easter.egg@email.comTel: 0118 999 881 999 119 7253'
   );
 });
 
