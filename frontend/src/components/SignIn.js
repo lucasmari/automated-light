@@ -9,7 +9,15 @@ import TextField from '@material-ui/core/TextField';
 import { createBrowserHistory } from 'history';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AUTH_TOKEN } from '../constants';
+import Cookies from 'universal-cookie';
+import {
+  COOKIE_SIGNED_IN_NAME,
+  COOKIE_CSRF_NAME,
+  COOKIE_PATH,
+  COOKIE_SAME_SITE,
+} from '../constants';
+
+export let TOKEN = '';
 
 const SIGNUP_MUTATION = gql`
   mutation CreateUser($name: String!, $email: String!, $password: String!) {
@@ -26,13 +34,17 @@ const SIGNUP_MUTATION = gql`
 const SIGNIN_MUTATION = gql`
   mutation SignInUser($email: String!, $password: String!) {
     signInUser(credentials: { email: $email, password: $password }) {
-      token
+      access
+      csrf
+      error
+      success
     }
   }
 `;
 
 const SignIn = () => {
   const history = createBrowserHistory({ forceRefresh: true });
+  const cookies = new Cookies();
 
   const [formState, setFormState] = useState({
     signin: true,
@@ -57,11 +69,18 @@ const SignIn = () => {
       password: formState.password,
     },
     onCompleted: (data) => {
-      if (data.signInUser) {
-        localStorage.setItem(AUTH_TOKEN, data.signInUser.token);
+      if (data.signInUser.success) {
+        cookies.set(COOKIE_SIGNED_IN_NAME, true, {
+          path: COOKIE_PATH,
+          sameSite: COOKIE_SAME_SITE,
+        });
+        cookies.set(COOKIE_CSRF_NAME, data.signInUser.csrf, {
+          path: COOKIE_PATH,
+          sameSite: COOKIE_SAME_SITE,
+        });
         history.push('/');
         handleClose();
-      } else alert('Wrong email or password!');
+      } else alert(data.signInUser.error);
     },
   });
 
@@ -71,13 +90,12 @@ const SignIn = () => {
       email: formState.email,
       password: formState.password,
     },
-    onCompleted: (data, error) => {
-      history.push('/');
-      handleClose();
-      if (error) alert(error);
-      data.createUser.success
-        ? alert('Account created!')
-        : alert(data.createUser.errors);
+    onCompleted: (data) => {
+      if (data.createUser.success) {
+        alert('Account created!');
+        history.push('/');
+        handleClose();
+      } else alert(data.createUser.errors);
     },
   });
 

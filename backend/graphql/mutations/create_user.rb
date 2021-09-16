@@ -12,8 +12,8 @@ module Mutations
     argument :name, String, required: true
     argument :auth_provider, AuthProviderSignupData, required: false
 
-    field :success, Boolean, null: false
-    field :errors, [String], null: false
+    field :success, Boolean, null: true
+    field :errors, [String], null: true
 
     def resolve(name: nil, auth_provider: nil)
       user = User.new(
@@ -22,17 +22,7 @@ module Mutations
         password: auth_provider&.[](:credentials)&.[](:password),
       )
 
-      if user.save
-        {
-          success: true,
-          errors: [],
-        }
-      else
-        {
-          success: false,
-          errors: user.errors.full_messages,
-        }
-      end
+      user.save ? { success: true } : { errors: user.errors.full_messages }
     end
   end
 end

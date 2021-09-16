@@ -2,7 +2,13 @@ import { gql, useQuery } from '@apollo/client';
 import Button from '@material-ui/core/Button';
 import React from 'react';
 import { useHistory } from 'react-router';
-import { AUTH_TOKEN, NEWS_PER_PAGE } from '../constants';
+import Cookies from 'universal-cookie';
+import {
+  COOKIE_PATH,
+  COOKIE_SIGNED_IN_NAME,
+  COOKIE_SAME_SITE,
+  NEWS_PER_PAGE,
+} from '../constants';
 import CreateNews from './CreateNews';
 import News from './News';
 
@@ -35,7 +41,8 @@ const getNewsToRender = (isNewPage, data) => {
 };
 
 const NewsList = () => {
-  const authToken = localStorage.getItem(AUTH_TOKEN);
+  const cookies = new Cookies();
+  const signedIn = cookies.get(COOKIE_SIGNED_IN_NAME);
   const history = useHistory();
   const isNewPage = history.location.pathname.includes('new');
   const pageIndexParams = history.location.pathname.split('/');
@@ -52,8 +59,11 @@ const NewsList = () => {
         );
 
       if (networkError) {
-        if (networkError.result && networkError.result.user_not_found) {
-          localStorage.removeItem(AUTH_TOKEN);
+        if (networkError.result && networkError.result.error.unauthorized) {
+          cookies.set(COOKIE_SIGNED_IN_NAME, '', {
+            path: COOKIE_PATH,
+            sameSite: COOKIE_SAME_SITE,
+          });
           history.push('/');
         } else {
           console.log(
@@ -70,7 +80,7 @@ const NewsList = () => {
       <div className="content-container">
         <div className="content-subcontainer">
           <h1>News</h1>
-          {authToken && <CreateNews />}
+          {signedIn && <CreateNews />}
         </div>
         {data && data.count.news > 0 ? (
           <>

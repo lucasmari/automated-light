@@ -8,8 +8,8 @@ module Mutations
     argument :title, String, required: true
     argument :body, String, required: true
 
-    field :success, Boolean, null: false
-    field :errors, [String], null: false
+    field :success, Boolean, null: true
+    field :errors, [String], null: true
 
     def resolve(title:, body:)
       news = News.new(
@@ -18,17 +18,7 @@ module Mutations
         user: context[:current_user],
       )
 
-      if news.save
-        {
-          success: true,
-          errors: [],
-        }
-      else
-        {
-          success: false,
-          errors: news.errors.full_messages,
-        }
-      end
+      news.save ? { success: true } : { errors: news.errors.full_messages }
     end
   end
 end

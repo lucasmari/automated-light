@@ -9,19 +9,22 @@ import 'font-awesome/css/font-awesome.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import App from './components/App';
-import { AUTH_TOKEN } from './constants';
 
 const httpLink = createHttpLink({
   uri: process.env.REACT_APP_BACK_ADDRESS,
+  credentials: 'include',
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(AUTH_TOKEN);
+  const cookies = new Cookies();
+  const token = cookies.get('csrf');
+
   return {
     headers: {
       ...headers,
-      Authorization: token ? `Bearer ${token}` : '',
+      'X-CSRF-TOKEN': token,
     },
   };
 });

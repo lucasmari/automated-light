@@ -29,7 +29,7 @@ RSpec.describe MutationType do
 
     it "returns success" do
       expect(result.dig("data", "createNews")).to match_array(
-        "success" => true, "errors" => [],
+        "success" => true, "errors" => nil,
       )
     end
   end
@@ -120,7 +120,7 @@ RSpec.describe MutationType do
 
     it "returns error" do
       expect(result.dig("data", "createNews")).to match_array(
-        "success" => false, "errors" => ["User can't be blank"],
+        "success" => nil, "errors" => ["User can't be blank"],
       )
     end
   end
@@ -143,7 +143,7 @@ RSpec.describe MutationType do
 
     it "returns success" do
       expect(result.dig("data", "createUser")).to match_array(
-        "success" => true, "errors" => [],
+        "success" => true, "errors" => nil,
       )
     end
   end
@@ -189,7 +189,7 @@ RSpec.describe MutationType do
 
     it "returns error" do
       expect(result.dig("data", "createUser")).to match_array(
-        "success" => false, "errors" => ["Password can't be blank"],
+        "success" => nil, "errors" => ["Password can't be blank"],
       )
     end
   end
@@ -199,7 +199,10 @@ RSpec.describe MutationType do
       <<-GRAPHQL
       mutation {
         signInUser(credentials: {email: "somebody@email.com", password: "12345"}) {
-          token
+          access
+          csrf
+          error
+          success
         }
       }
       GRAPHQL
@@ -211,9 +214,9 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns a token" do
+    it "returns access and csrf tokens with success" do
       expect(result.dig("data", "signInUser")).to match_array(
-        "token" => be_present,
+        "access" => be_present, "csrf" => be_present, "error" => nil, "success" => true,
       )
     end
   end
@@ -223,7 +226,10 @@ RSpec.describe MutationType do
       <<-GRAPHQL
       mutation {
         signInUser(credentials: {email: "somebody@email.com", password: "54321"}) {
-          token
+          access
+          csrf
+          error
+          success
         }
       }
       GRAPHQL
@@ -235,9 +241,9 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns nil" do
-      expect(result.dig("data")).to match_array(
-        "signInUser" => be_nil,
+    it "returns error" do
+      expect(result.dig("data", "signInUser")).to match_array(
+        "access" => nil, "csrf" => nil, "error" => "Wrong credentials", "success" => nil,
       )
     end
   end

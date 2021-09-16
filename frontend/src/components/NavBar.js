@@ -1,7 +1,12 @@
 import { createBrowserHistory } from 'history';
 import React from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import { AUTH_TOKEN } from '../constants';
+import Cookies from 'universal-cookie';
+import {
+  COOKIE_SIGNED_IN_NAME,
+  COOKIE_PATH,
+  COOKIE_SAME_SITE,
+} from '../constants';
 import './../styles/NavBar.css';
 import logo from './logo.png';
 import SearchBar from './SearchBar';
@@ -9,7 +14,8 @@ import SignIn from './SignIn';
 
 const NavBar = () => {
   const history = createBrowserHistory({ forceRefresh: true });
-  const authToken = localStorage.getItem(AUTH_TOKEN);
+  const cookies = new Cookies();
+  const signedIn = cookies.get(COOKIE_SIGNED_IN_NAME);
 
   return (
     <ul className="nav">
@@ -29,11 +35,15 @@ const NavBar = () => {
         About
       </NavLink>
       <SearchBar />
-      {authToken ? (
+      {signedIn ? (
         <Link
           className="signout"
+          to="/"
           onClick={() => {
-            localStorage.removeItem(AUTH_TOKEN);
+            cookies.set(COOKIE_SIGNED_IN_NAME, '', {
+              path: COOKIE_PATH,
+              sameSite: COOKIE_SAME_SITE,
+            });
             history.push('/');
           }}
         >
