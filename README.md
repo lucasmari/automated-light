@@ -112,13 +112,12 @@ Prerequisites
 
 - [AWS account](https://console.aws.amazon.com)
 - [aws-cli 2.x](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-- [CircleCI account](https://app.circleci.com/dashboard)
 - [terraform-cli 1.0.x](https://www.terraform.io/downloads.html)
 
 Setup
 
 1. Fork this repository
-2. Open CircleCI and setup the project, adding your AWS credentials as environment variables
+2. Add your AWS credentials as Secrets
 
 Deploy
 
