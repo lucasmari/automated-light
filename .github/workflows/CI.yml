@@ -30,6 +30,24 @@ jobs:
       - name: Run tests
         run: yarn jest
 
+  node-security:
+    name: Security Analysis | Node.js
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+
   ruby-test:
     name: Test | Ruby
     runs-on: ubuntu-latest
@@ -51,3 +69,21 @@ jobs:
 
       - name: Run tests
         run: ./run_unit_tests.sh
+
+  ruby-security:
+    name: Security Analysis | Ruby
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/ruby@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor

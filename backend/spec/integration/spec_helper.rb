@@ -1,7 +1,18 @@
 ENV["MONGOID_ENV"] ||= "test"
+require "codecov"
 require "database_cleaner-mongoid"
 require "factory_bot"
 require "mongoid-rspec"
+require "simplecov"
+
+SimpleCov.start do
+  add_filter "/config/"
+
+  add_group "GraphQL", "graphql"
+end
+
+SimpleCov.coverage_dir "coverage/integration"
+SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 Mongoid.load!(File.join(File.dirname(__FILE__), "../../config", "mongoid.yml"))
 
