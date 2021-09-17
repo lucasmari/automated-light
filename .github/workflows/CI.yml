@@ -37,12 +37,13 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          repository: frontend
 
       - name: Check for vulnerabilities
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          args: --file=../../package.json
 
   ruby-test:
     name: Test | Ruby
@@ -73,9 +74,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          repository: backend
 
       - name: Check for vulnerabilities
         uses: snyk/actions/ruby@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          args: --file=../../Gemfile
