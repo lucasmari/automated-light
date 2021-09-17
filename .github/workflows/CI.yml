@@ -74,8 +74,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-        with:
-          repository: backend
 
       - name: Check for vulnerabilities
         uses: snyk/actions/ruby@master
