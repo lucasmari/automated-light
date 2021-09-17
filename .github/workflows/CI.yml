@@ -15,10 +15,6 @@ jobs:
       run:
         working-directory: ./frontend
 
-    strategy:
-      matrix:
-        node-version: [12.x, 14.x, 16.x]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -26,11 +22,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          node-version: 15.x
 
       - name: Install modules
-        run: npm ci
+        run: yarn install
 
       - name: Run tests
         run: yarn jest
@@ -42,10 +37,6 @@ jobs:
       run:
         working-directory: ./backend
 
-    strategy:
-      matrix:
-        ruby-version: ["2.6", "2.7", "3.0"]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -53,30 +44,10 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
+          ruby-version: "2.7"
+
+      - name: Install gems
+        run: bundle install
 
       - name: Run tests
         run: ./run_unit_tests.sh
-
-  codacy-security-scan:
-    name: Codacy Security Scan
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@1.1.0
-        with:
-          verbose: true
-          output: results.sarif
-          format: sarif
-          gh-code-scanning-compat: true
-          max-allowed-issues: 0
-
-      - name: Upload SARIF results file
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: results.sarif
