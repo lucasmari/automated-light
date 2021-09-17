@@ -38,11 +38,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Enter directory
+        run: cd frontend
+
       - name: Check for vulnerabilities
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          working-directory: ./frontend
 
   ruby-test:
     name: Test | Ruby
@@ -74,8 +76,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Enter directory
+        run: cd backend
+
       - name: Check for vulnerabilities
         uses: snyk/actions/ruby@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          working-directory: ./backend
