@@ -8,46 +8,56 @@ on:
     branches: [main]
 
 jobs:
-  codacy-test:
-    name: Codacy Test
+  # codacy-test:
+  #   name: Codacy Test
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Run Codacy Analysis CLI
+  #       uses: codacy/codacy-analysis-cli-action@master
+  #       with:
+  #         output: results.sarif
+  #         format: sarif
+  #         gh-code-scanning-compat: true
+  #         max-allowed-issues: 2147483647
+
+  #     - name: Upload results
+  #       uses: github/codeql-action/upload-sarif@main
+  #       with:
+  #         sarif_file: results.sarif
+  #-------------------------------------------------
+  #            ===== [ Backend ] =====
+  #-------------------------------------------------
+  backend-test:
+    name: Test | Ruby
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@master
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          output: results.sarif
-          format: sarif
-          gh-code-scanning-compat: true
-          max-allowed-issues: 2147483647
+          ruby-version: "2.7"
 
-      - name: Upload results
-        uses: github/codeql-action/upload-sarif@main
+      - name: Install gems
+        run: bundle install
+
+      - name: Run tests
+        run: ./run_unit_tests.sh
+
+      - name: Run Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
         with:
-          sarif_file: results.sarif
-  #-------------------------------------------------
-  #            ===== [ Backend ] =====
-  #-------------------------------------------------
-  # backend-test:
-  #   name: Test | Ruby
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./backend
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: "2.7"
-  #     - name: Install gems
-  #       run: bundle install
-  #     - name: Run tests
-  #       run: ./run_unit_tests.sh
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: codecov-result.json
   # backend-security-test:
   #   name: Security Test | Ruby
   #   runs-on: ubuntu-latest
@@ -81,23 +91,33 @@ jobs:
   #-------------------------------------------------
   #            ===== [ Frontend ] =====
   #-------------------------------------------------
-  # frontend-test:
-  #   name: Test | Node.js
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./frontend
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v2
-  #       with:
-  #         node-version: 15.x
-  #     - name: Install modules
-  #       run: yarn install
-  #     - name: Run tests
-  #       run: yarn jest
+  frontend-test:
+    name: Test | Node.js
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.x
+
+      - name: Install modules
+        run: yarn install
+
+      - name: Run tests
+        run: yarn jest
+
+      - name: Run Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: coverage-final.json
   # frontend-security-test:
   #   name: Security Test | Node.js
   #   runs-on: ubuntu-latest
