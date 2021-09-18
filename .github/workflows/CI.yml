@@ -99,12 +99,12 @@ jobs:
       - name: Install modules
         run: yarn install
       - name: Run tests
-        run: yarn jest
+        run: yarn jest --coverage
       - name: Run Codacy Coverage Reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: lcov.info
+          coverage-reports: frontend/coverage/lcov.info
   # frontend-security-test:
   #   name: Security Test | Node.js
   #   runs-on: ubuntu-latest
