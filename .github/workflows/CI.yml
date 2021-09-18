@@ -30,8 +30,8 @@ jobs:
       - name: Run tests
         run: yarn jest
 
-  node-security:
-    name: Security Analysis | Node.js
+  node-security-test:
+    name: Security Test | Node.js
     runs-on: ubuntu-latest
 
     steps:
@@ -45,12 +45,27 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif frontend
-          command: monitor
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: snyk.sarif
+
+  node-security-monitor:
+    name: Security Monitor | Node.js
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/ruby@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: backend
+          command: monitor
 
   ruby-test:
     name: Test | Ruby
@@ -74,8 +89,8 @@ jobs:
       - name: Run tests
         run: ./run_unit_tests.sh
 
-  ruby-security:
-    name: Security Analysis | Ruby
+  ruby-security-test:
+    name: Security Test | Ruby
     runs-on: ubuntu-latest
 
     steps:
@@ -89,9 +104,24 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --sarif-file-output=snyk.sarif backend
-          command: monitor
 
       - name: Upload result to GitHub Code Scanning
         uses: github/codeql-action/upload-sarif@v1
         with:
           sarif_file: snyk.sarif
+
+  ruby-security-monitor:
+    name: Security Monitor | Ruby
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/ruby@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: backend
+          command: monitor
