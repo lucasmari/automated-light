@@ -1,12 +1,13 @@
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import Button from '@material-ui/core/Button';
+import gql from 'graphql-tag';
 import React from 'react';
 import { useHistory } from 'react-router';
 import Cookies from 'universal-cookie';
 import {
   COOKIE_PATH,
-  COOKIE_SIGNED_IN_NAME,
   COOKIE_SAME_SITE,
+  COOKIE_SIGNED_IN_NAME,
   NEWS_PER_PAGE,
 } from '../constants';
 import CreateNews from './CreateNews';

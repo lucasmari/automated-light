@@ -40,10 +40,16 @@ jobs:
 
       - name: Check for vulnerabilities
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: frontend
+          args: --sarif-file-output=snyk.sarif frontend
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: snyk.sarif
 
   ruby-test:
     name: Test | Ruby
@@ -77,7 +83,13 @@ jobs:
 
       - name: Check for vulnerabilities
         uses: snyk/actions/ruby@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: backend
+          args: --sarif-file-output=snyk.sarif backend
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: snyk.sarif

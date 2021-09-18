@@ -1,9 +1,10 @@
+import { useQuery } from '@apollo/client';
+import gql from 'graphql-tag';
 import React from 'react';
 import Games from './Games';
-import { useQuery, gql } from '@apollo/client';
 
 const GAMES_QUERY = gql`
-  {
+  query GamesList {
     games {
       id
       name
