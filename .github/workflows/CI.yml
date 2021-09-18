@@ -8,66 +8,11 @@ on:
     branches: [main]
 
 jobs:
-  node-test:
-    name: Test | Node.js
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
+  #-------------------------------------------------
+  #            ===== [ Backend ] =====
+  #-------------------------------------------------
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 15.x
-
-      - name: Install modules
-        run: yarn install
-
-      - name: Run tests
-        run: yarn jest
-
-  node-security-test:
-    name: Security Test | Node.js
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif frontend
-
-      - name: Upload result to GitHub Code Scanning
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: snyk.sarif
-
-  node-security-monitor:
-    name: Security Monitor | Node.js
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Check for vulnerabilities
-        uses: snyk/actions/ruby@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: frontend
-          command: monitor
-
-  ruby-test:
+  backend-test:
     name: Test | Ruby
     runs-on: ubuntu-latest
     defaults:
@@ -89,7 +34,7 @@ jobs:
       - name: Run tests
         run: ./run_unit_tests.sh
 
-  ruby-security-test:
+  backend-security-test:
     name: Security Test | Ruby
     runs-on: ubuntu-latest
 
@@ -110,7 +55,7 @@ jobs:
         with:
           sarif_file: snyk.sarif
 
-  ruby-security-monitor:
+  backend-security-monitor:
     name: Security Monitor | Ruby
     runs-on: ubuntu-latest
 
@@ -124,4 +69,108 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: backend
+          command: monitor
+
+  #-------------------------------------------------
+  #            ===== [ Frontend ] =====
+  #-------------------------------------------------
+
+  frontend-test:
+    name: Test | Node.js
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 15.x
+
+      - name: Install modules
+        run: yarn install
+
+      - name: Run tests
+        run: yarn jest
+
+  frontend-security-test:
+    name: Security Test | Node.js
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif frontend
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: snyk.sarif
+
+  frontend-security-monitor:
+    name: Security Monitor | Node.js
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: frontend
+          command: monitor
+
+  #-------------------------------------------------
+  #             ===== [ Infra ] =====
+  #-------------------------------------------------
+
+  infra-security-test:
+    name: Security Test | Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/iac@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif infra
+
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: snyk.sarif
+
+  infra-security-monitor:
+    name: Security Monitor | Terraform
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check for vulnerabilities
+        uses: snyk/actions/iac@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: infra
           command: monitor
