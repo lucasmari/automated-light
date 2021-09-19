@@ -28,28 +28,28 @@ jobs:
   #-------------------------------------------------
   #            ===== [ Backend ] =====
   #-------------------------------------------------
-  # backend-test:
-  #   name: Test | Ruby
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run:
-  #       working-directory: ./backend
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v2
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         ruby-version: "2.7"
-  #     - name: Install gems
-  #       run: bundle install
-  #     - name: Run tests
-  #       run: ./run_unit_tests.sh
-  #     - name: Run Codacy Coverage Reporter
-  #       uses: codacy/codacy-coverage-reporter-action@v1
-  #       with:
-  #         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-  #         coverage-reports: coverage/unit/codecov-result.json
+  backend-test:
+    name: Test | Ruby
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7"
+      - name: Install gems
+        run: bundle install
+      - name: Run tests
+        run: ./run_unit_tests.sh
+      - name: Run Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: backend/coverage/lcov/backend.lcov
   # backend-security-test:
   #   name: Security Test | Ruby
   #   runs-on: ubuntu-latest
