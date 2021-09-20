@@ -4,7 +4,7 @@ import News from './News';
 
 const Search = () => {
   const location = useLocation();
-  const data = location.state.data;
+  const { data } = location.state;
 
   return (
     <div className="content-container">

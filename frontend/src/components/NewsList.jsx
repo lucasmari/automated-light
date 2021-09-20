@@ -39,6 +39,7 @@ const getNewsToRender = (isNewPage, data) => {
   if (isNewPage) {
     return data.news;
   }
+  return '';
 };
 
 const NewsList = () => {
@@ -47,17 +48,18 @@ const NewsList = () => {
   const history = useHistory();
   const isNewPage = history.location.pathname.includes('new');
   const pageIndexParams = history.location.pathname.split('/');
-  const page = parseInt(pageIndexParams[pageIndexParams.length - 1]);
+  const page = parseInt(pageIndexParams[pageIndexParams.length - 1], 10);
   const pageIndex = page ? (page - 1) * NEWS_PER_PAGE : 0;
 
   const { loading, error, data } = useQuery(NEWS_QUERY, {
     variables: getQueryVariables(isNewPage, page),
     errorPolicy: 'all',
     onError: ({ graphQLErrors, networkError }) => {
-      if (graphQLErrors)
+      if (graphQLErrors) {
         console.log(
-          `[GraphQL error]: ${JSON.stringify(graphQLErrors, null, 2)}`
+          `[GraphQL error]: ${JSON.stringify(graphQLErrors, null, 2)}`,
         );
+      }
 
       if (networkError) {
         if (networkError.result && networkError.result.error.unauthorized) {
@@ -68,7 +70,7 @@ const NewsList = () => {
           history.push('/');
         } else {
           console.log(
-            `[Network error]: ${JSON.stringify(networkError, null, 2)}`
+            `[Network error]: ${JSON.stringify(networkError, null, 2)}`,
           );
         }
       }

@@ -26,21 +26,6 @@ const CreateNews = () => {
     body: '',
   });
 
-  const [createNews] = useMutation(CREATE_NEWS_MUTATION, {
-    variables: {
-      title: formState.title,
-      body: formState.body,
-    },
-    onCompleted: (data, error) => {
-      history.push('/');
-      handleClose();
-      if (error) alert(error);
-      data.createNews.success
-        ? alert('News created!')
-        : alert(data.createNews.errors);
-    },
-  });
-
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -50,6 +35,26 @@ const CreateNews = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const [createNews] = useMutation(CREATE_NEWS_MUTATION, {
+    variables: {
+      title: formState.title,
+      body: formState.body,
+    },
+    onError: (error) => {
+      alert(error);
+    },
+    onCompleted: (data) => {
+      history.push('/');
+      handleClose();
+
+      if (data.createNews.success) {
+        alert('News created!');
+      } else {
+        alert(data.createNews.errors);
+      }
+    },
+  });
 
   return (
     <div>
@@ -74,12 +79,10 @@ const CreateNews = () => {
             type="text"
             fullWidth
             value={formState.title}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                title: e.target.value,
-              })
-            }
+            onChange={(e) => setFormState({
+              ...formState,
+              title: e.target.value,
+            })}
             InputLabelProps={{
               style: { color: 'white' },
             }}
@@ -91,12 +94,10 @@ const CreateNews = () => {
             type="text"
             fullWidth
             value={formState.body}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                body: e.target.value,
-              })
-            }
+            onChange={(e) => setFormState({
+              ...formState,
+              body: e.target.value,
+            })}
             InputLabelProps={{
               style: { color: 'white' },
             }}

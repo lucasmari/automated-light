@@ -18,8 +18,6 @@ import {
   COOKIE_SIGNED_IN_NAME,
 } from '../constants';
 
-export let TOKEN = '';
-
 const SIGNUP_MUTATION = gql`
   mutation CreateUser($name: String!, $email: String!, $password: String!) {
     createUser(
@@ -109,7 +107,7 @@ const SignIn = () => {
 
   return (
     <div>
-      <Link className="signin" onClick={handleOpen} to="">
+      <Link className="signin" to="/" onClick={handleOpen}>
         Sign In
       </Link>
       <Dialog
@@ -134,12 +132,10 @@ const SignIn = () => {
               type="text"
               fullWidth
               value={formState.name}
-              onChange={(e) =>
-                setFormState({
-                  ...formState,
-                  name: e.target.value,
-                })
-              }
+              onChange={(e) => setFormState({
+                ...formState,
+                name: e.target.value,
+              })}
               InputLabelProps={{
                 style: { color: 'white' },
               }}
@@ -152,12 +148,10 @@ const SignIn = () => {
             type="text"
             fullWidth
             value={formState.email}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                email: e.target.value,
-              })
-            }
+            onChange={(e) => setFormState({
+              ...formState,
+              email: e.target.value,
+            })}
             InputLabelProps={{
               style: { color: 'white' },
             }}
@@ -169,12 +163,10 @@ const SignIn = () => {
             type="text"
             fullWidth
             value={formState.password}
-            onChange={(e) =>
-              setFormState({
-                ...formState,
-                password: e.target.value,
-              })
-            }
+            onChange={(e) => setFormState({
+              ...formState,
+              password: e.target.value,
+            })}
             InputLabelProps={{
               style: { color: 'white' },
             }}

@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const theme = createTheme({
   palette: {
@@ -8,8 +9,10 @@ const theme = createTheme({
   },
 });
 
-const Theme = (props) => {
-  return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
+function Theme({ children }) { return (<ThemeProvider theme={theme}>{children}</ThemeProvider>); }
+
+Theme.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default Theme;

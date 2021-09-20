@@ -16,14 +16,15 @@ const GamesList = () => {
   const { loading, error, data } = useQuery(GAMES_QUERY, {
     errorPolicy: 'all',
     onError: ({ graphQLErrors, networkError }) => {
-      if (graphQLErrors)
+      if (graphQLErrors) {
         console.log(
-          `[GraphQL error]: ${JSON.stringify(graphQLErrors, null, 2)}`
+          `[GraphQL error]: ${JSON.stringify(graphQLErrors, null, 2)}`,
         );
+      }
 
       if (networkError) {
         console.log(
-          `[Network error]: ${JSON.stringify(networkError, null, 2)}`
+          `[Network error]: ${JSON.stringify(networkError, null, 2)}`,
         );
       }
     },

@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Games = (props) => {
-  const { games } = props;
+function Games({ games }) {
   return (
     <div className="games">
       <div>
@@ -9,6 +9,10 @@ const Games = (props) => {
       </div>
     </div>
   );
+}
+
+Games.propTypes = {
+  games: PropTypes.shape({ name: PropTypes.string }).isRequired,
 };
 
 export default Games;

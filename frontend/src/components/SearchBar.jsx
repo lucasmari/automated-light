@@ -29,7 +29,7 @@ const SearchBar = () => {
     if (data) {
       history.push({
         pathname: '/search',
-        state: { data: data },
+        state: { data },
       });
     }
   }, [data, history]);
@@ -42,9 +42,9 @@ const SearchBar = () => {
           placeholder="Search..."
           name="search"
           onChange={(e) => setSearchFilter(e.target.value)}
-        ></input>
-        <button onClick={executeSearch}>
-          <em className="fa fa-search"></em>
+        />
+        <button type="button" onClick={executeSearch}>
+          <em className="fa fa-search" />
         </button>
       </div>
     </>

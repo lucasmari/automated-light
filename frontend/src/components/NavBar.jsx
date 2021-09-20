@@ -7,7 +7,7 @@ import {
   COOKIE_PATH,
   COOKIE_SAME_SITE,
 } from '../constants';
-import './../styles/NavBar.css';
+import '../styles/NavBar.css';
 import logo from './logo.png';
 import SearchBar from './SearchBar';
 import SignIn from './SignIn';
