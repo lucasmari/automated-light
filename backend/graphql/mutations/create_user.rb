@@ -1,7 +1,9 @@
-require "graphql"
-require_relative "base_mutation"
-require_relative "../types/base_input_object"
-require_relative "../types/auth_provider_credentials_input"
+# frozen_string_literal: true
+
+require 'graphql'
+require_relative 'base_mutation'
+require_relative '../types/base_input_object'
+require_relative '../types/auth_provider_credentials_input'
 
 module Mutations
   class CreateUser < BaseMutation
@@ -19,7 +21,7 @@ module Mutations
       user = User.new(
         name: name,
         email: auth_provider&.[](:credentials)&.[](:email),
-        password: auth_provider&.[](:credentials)&.[](:password),
+        password: auth_provider&.[](:credentials)&.[](:password)
       )
 
       user.save ? { success: true } : { errors: user.errors.full_messages }

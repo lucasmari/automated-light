@@ -1,9 +1,11 @@
-require_relative "../../graphql/schema"
-require_relative "../../models/user"
-require_relative "../../models/game"
+# frozen_string_literal: true
+
+require_relative '../../graphql/schema'
+require_relative '../../models/user'
+require_relative '../../models/game'
 
 RSpec.describe QueryType do
-  context "when queried games" do
+  context 'when queried games' do
     let!(:games) { create_pair(:game) }
 
     let(:query) do
@@ -21,14 +23,14 @@ RSpec.describe QueryType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns all games" do
-      expect(result.dig("data", "games")).to match_array(
-        games.map { |game| { "id" => be_present, "name" => game.name } }
+    it 'returns all games' do
+      expect(result.dig('data', 'games')).to match_array(
+        games.map { |game| { 'id' => be_present, 'name' => game.name } }
       )
     end
   end
 
-  context "when queried news" do
+  context 'when queried news' do
     let!(:news) { create_pair(:news) }
 
     let(:query) do
@@ -50,14 +52,16 @@ RSpec.describe QueryType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns all news" do
-      expect(result.dig("data", "news")).to match_array(
-        news.map { |news| { "id" => be_present, "title" => news.title, "body" => news.body, "user" => { "name" => news.user.name } } }
+    it 'returns all news' do
+      expect(result.dig('data', 'news')).to match_array(
+        news.map do |news|
+          { 'id' => be_present, 'title' => news.title, 'body' => news.body, 'user' => { 'name' => news.user.name } }
+        end
       )
     end
   end
 
-  context "when queried news with filter" do
+  context 'when queried news with filter' do
     let!(:news) { create_pair(:news) }
 
     let(:query) do
@@ -79,14 +83,14 @@ RSpec.describe QueryType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns filtered news" do
-      expect(result.dig("data", "news")).to include(
-        { "id" => be_present, "title" => "title-3", "body" => "body-3", "user" => { "name" => "user-8" } }
+    it 'returns filtered news' do
+      expect(result.dig('data', 'news')).to include(
+        { 'id' => be_present, 'title' => 'title-3', 'body' => 'body-3', 'user' => { 'name' => 'user-8' } }
       )
     end
   end
 
-  context "when queried users" do
+  context 'when queried users' do
     let!(:users) { create_pair(:user) }
 
     let(:query) do
@@ -106,9 +110,11 @@ RSpec.describe QueryType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns all users" do
-      expect(result.dig("data", "users")).to match_array(
-        users.map { |user| { "id" => be_present, "name" => user.name, "email" => user.email, "passwordDigest" => be_present } }
+    it 'returns all users' do
+      expect(result.dig('data', 'users')).to match_array(
+        users.map do |user|
+          { 'id' => be_present, 'name' => user.name, 'email' => user.email, 'passwordDigest' => be_present }
+        end
       )
     end
   end

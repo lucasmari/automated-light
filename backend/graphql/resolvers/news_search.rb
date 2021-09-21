@@ -1,7 +1,9 @@
-require "search_object"
-require "search_object/plugin/graphql"
-require_relative "base"
-require_relative "../types/base_input_object"
+# frozen_string_literal: true
+
+require 'search_object'
+require 'search_object/plugin/graphql'
+require_relative 'base'
+require_relative '../types/base_input_object'
 
 module Resolvers
   class NewsSearch < Base
@@ -32,8 +34,8 @@ module Resolvers
 
     def normalize_filters(value, branches = [])
       scope = News.all
-      scope = scope.where(:title => value[:title_contains]) if value[:title_contains]
-      scope = scope.where(:body => value[:body_contains]) if value[:body_contains]
+      scope = scope.where(title: value[:title_contains]) if value[:title_contains]
+      scope = scope.where(body: value[:body_contains]) if value[:body_contains]
 
       branches << scope
 

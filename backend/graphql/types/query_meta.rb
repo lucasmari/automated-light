@@ -1,9 +1,11 @@
-require "graphql"
-require_relative "base_object"
+# frozen_string_literal: true
+
+require 'graphql'
+require_relative 'base_object'
 
 module Types
   class QueryMetaType < BaseObject
-    graphql_name "_QueryMeta"
+    graphql_name '_QueryMeta'
 
     field :news, Int, null: false
 

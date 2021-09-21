@@ -1,4 +1,6 @@
-require_relative "../../models/news"
+# frozen_string_literal: true
+
+require_relative '../../models/news'
 
 RSpec.describe News, type: :model do
   it { is_expected.to be_mongoid_document }

@@ -1,9 +1,11 @@
-require "graphql"
-require_relative "base_mutation"
+# frozen_string_literal: true
+
+require 'graphql'
+require_relative 'base_mutation'
 
 module Mutations
   class CreateNews < BaseMutation
-    description "Creates news"
+    description 'Creates news'
 
     argument :title, String, required: true
     argument :body, String, required: true
@@ -15,7 +17,7 @@ module Mutations
       news = News.new(
         title: title,
         body: body,
-        user: context[:current_user],
+        user: context[:current_user]
       )
 
       news.save ? { success: true } : { errors: news.errors.full_messages }

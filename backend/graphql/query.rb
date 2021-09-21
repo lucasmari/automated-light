@@ -1,9 +1,11 @@
-require "graphql"
-require_relative "./types/news"
-require_relative "./types/game"
-require_relative "./types/query_meta"
-require_relative "./types/user"
-require_relative "./resolvers/news_search"
+# frozen_string_literal: true
+
+require 'graphql'
+require_relative './types/news'
+require_relative './types/game'
+require_relative './types/query_meta'
+require_relative './types/user'
+require_relative './resolvers/news_search'
 
 class QueryType < Types::BaseObject
   field :news, [Types::News], null: false, resolver: Resolvers::NewsSearch

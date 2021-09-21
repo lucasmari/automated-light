@@ -1,9 +1,11 @@
-require "graphql"
-require_relative "base_object"
+# frozen_string_literal: true
+
+require 'graphql'
+require_relative 'base_object'
 
 module Types
   class Game < BaseObject
-    description "Games item"
+    description 'Games item'
 
     field :id, ID, null: false
     field :name, String, null: false

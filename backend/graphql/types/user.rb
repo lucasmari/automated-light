@@ -1,5 +1,7 @@
-require "graphql"
-require_relative "base_object"
+# frozen_string_literal: true
+
+require 'graphql'
+require_relative 'base_object'
 
 module Types
   class User < BaseObject

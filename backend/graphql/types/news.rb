@@ -1,10 +1,12 @@
-require "graphql"
-require_relative "base_object"
-require_relative "user"
+# frozen_string_literal: true
+
+require 'graphql'
+require_relative 'base_object'
+require_relative 'user'
 
 module Types
   class News < BaseObject
-    description "News item"
+    description 'News item'
 
     field :id, ID, null: false
     field :title, String, null: false

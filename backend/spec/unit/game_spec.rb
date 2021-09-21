@@ -1,4 +1,6 @@
-require_relative "../../models/game"
+# frozen_string_literal: true
+
+require_relative '../../models/game'
 
 RSpec.describe Game, type: :model do
   it { is_expected.to be_mongoid_document }

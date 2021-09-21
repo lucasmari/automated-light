@@ -1,9 +1,11 @@
-require_relative "../../graphql/schema"
-require_relative "../../models/user"
-require_relative "../../models/news"
+# frozen_string_literal: true
+
+require_relative '../../graphql/schema'
+require_relative '../../models/user'
+require_relative '../../models/news'
 
 RSpec.describe MutationType do
-  context "when queried createNews with title and body" do
+  context 'when queried createNews with title and body' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -19,7 +21,7 @@ RSpec.describe MutationType do
 
     let(:context) do
       {
-        current_user: user,
+        current_user: user
       }
     end
 
@@ -27,14 +29,14 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query, variables: {}, context: context).as_json
     end
 
-    it "returns success" do
-      expect(result.dig("data", "createNews")).to match_array(
-        "success" => true, "errors" => nil,
+    it 'returns success' do
+      expect(result.dig('data', 'createNews')).to match_array(
+        'success' => true, 'errors' => nil
       )
     end
   end
 
-  context "when queried createNews without title" do
+  context 'when queried createNews without title' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -50,7 +52,7 @@ RSpec.describe MutationType do
 
     let(:context) do
       {
-        current_user: user,
+        current_user: user
       }
     end
 
@@ -58,14 +60,14 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query, variables: {}, context: context).as_json
     end
 
-    it "returns error" do
-      expect(result.dig("errors")).to include(
-        "extensions" => be_present, "locations" => be_present, "message" => be_present, "path" => be_present,
+    it 'returns error' do
+      expect(result['errors']).to include(
+        'extensions' => be_present, 'locations' => be_present, 'message' => be_present, 'path' => be_present
       )
     end
   end
 
-  context "when queried createNews without body" do
+  context 'when queried createNews without body' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -81,7 +83,7 @@ RSpec.describe MutationType do
 
     let(:context) do
       {
-        current_user: user,
+        current_user: user
       }
     end
 
@@ -89,14 +91,14 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query, variables: {}, context: context).as_json
     end
 
-    it "returns error" do
-      expect(result.dig("errors")).to include(
-        "extensions" => be_present, "locations" => be_present, "message" => be_present, "path" => be_present,
+    it 'returns error' do
+      expect(result['errors']).to include(
+        'extensions' => be_present, 'locations' => be_present, 'message' => be_present, 'path' => be_present
       )
     end
   end
 
-  context "when queried createNews with no user logged in" do
+  context 'when queried createNews with no user logged in' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -110,7 +112,7 @@ RSpec.describe MutationType do
 
     let(:context) do
       {
-        current_user: {},
+        current_user: {}
       }
     end
 
@@ -118,14 +120,14 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query, variables: {}, context: context).as_json
     end
 
-    it "returns error" do
-      expect(result.dig("data", "createNews")).to match_array(
-        "success" => nil, "errors" => ["User can't be blank"],
+    it 'returns error' do
+      expect(result.dig('data', 'createNews')).to match_array(
+        'success' => nil, 'errors' => ["User can't be blank"]
       )
     end
   end
 
-  context "when queried createUser with name and credentials" do
+  context 'when queried createUser with name and credentials' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -141,14 +143,14 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns success" do
-      expect(result.dig("data", "createUser")).to match_array(
-        "success" => true, "errors" => nil,
+    it 'returns success' do
+      expect(result.dig('data', 'createUser')).to match_array(
+        'success' => true, 'errors' => nil
       )
     end
   end
 
-  context "when queried createUser without name" do
+  context 'when queried createUser without name' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -164,14 +166,14 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns error" do
-      expect(result.dig("errors")).to include(
-        "extensions" => be_present, "locations" => be_present, "message" => be_present, "path" => be_present,
+    it 'returns error' do
+      expect(result['errors']).to include(
+        'extensions' => be_present, 'locations' => be_present, 'message' => be_present, 'path' => be_present
       )
     end
   end
 
-  context "when queried createUser without credentials" do
+  context 'when queried createUser without credentials' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -187,14 +189,14 @@ RSpec.describe MutationType do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns error" do
-      expect(result.dig("data", "createUser")).to match_array(
-        "success" => nil, "errors" => ["Password can't be blank"],
+    it 'returns error' do
+      expect(result.dig('data', 'createUser')).to match_array(
+        'success' => nil, 'errors' => ["Password can't be blank"]
       )
     end
   end
 
-  context "when queried signInUser with credentials" do
+  context 'when queried signInUser with credentials' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -208,20 +210,20 @@ RSpec.describe MutationType do
       GRAPHQL
     end
 
-    let!(:user) { create(:user, email: "somebody@email.com", password: "12345") }
+    let!(:user) { create(:user, email: 'somebody@email.com', password: '12345') }
 
     subject(:result) do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns access and csrf tokens with success" do
-      expect(result.dig("data", "signInUser")).to match_array(
-        "access" => be_present, "csrf" => be_present, "error" => nil, "success" => true,
+    it 'returns access and csrf tokens with success' do
+      expect(result.dig('data', 'signInUser')).to match_array(
+        'access' => be_present, 'csrf' => be_present, 'error' => nil, 'success' => true
       )
     end
   end
 
-  context "when queried signInUser with wrong credentials" do
+  context 'when queried signInUser with wrong credentials' do
     let(:query) do
       <<-GRAPHQL
       mutation {
@@ -235,15 +237,15 @@ RSpec.describe MutationType do
       GRAPHQL
     end
 
-    let!(:user) { create(:user, email: "somebody@email.com", password: "12345") }
+    let!(:user) { create(:user, email: 'somebody@email.com', password: '12345') }
 
     subject(:result) do
       ApplicationSchema.execute(query).as_json
     end
 
-    it "returns error" do
-      expect(result.dig("data", "signInUser")).to match_array(
-        "access" => nil, "csrf" => nil, "error" => "Wrong credentials", "success" => nil,
+    it 'returns error' do
+      expect(result.dig('data', 'signInUser')).to match_array(
+        'access' => nil, 'csrf' => nil, 'error' => 'Wrong credentials', 'success' => nil
       )
     end
   end
