@@ -38,7 +38,7 @@ it('navigates home when you click the logo', () => {
         </div>
       </MockedProvider>
     </BrowserRouter>,
-    container
+    container,
   );
 
   act(() => {
@@ -48,7 +48,7 @@ it('navigates home when you click the logo', () => {
 
   expect(testLocation.pathname).toBe('/news/1');
   expect(document.querySelector('.content-container').textContent).toBe(
-    'NewsNo news...'
+    'NewsNo news...',
   );
 });
 
@@ -70,7 +70,7 @@ it("navigates home when you click the site's name", () => {
         </div>
       </MockedProvider>
     </BrowserRouter>,
-    container
+    container,
   );
 
   act(() => {
@@ -80,7 +80,7 @@ it("navigates home when you click the site's name", () => {
 
   expect(testLocation.pathname).toBe('/news/1');
   expect(document.querySelector('.content-container').textContent).toBe(
-    'NewsNo news...'
+    'NewsNo news...',
   );
 });
 
@@ -91,7 +91,7 @@ it('navigates to /games when you click Games', () => {
         <App />
       </MockedProvider>
     </BrowserRouter>,
-    container
+    container,
   );
 
   act(() => {
@@ -100,7 +100,7 @@ it('navigates to /games when you click Games', () => {
   });
 
   expect(document.querySelector('.content-container').textContent).toBe(
-    'Games'
+    'Games',
   );
 });
 
@@ -111,7 +111,7 @@ it('navigates to /contact when you click Contact', () => {
         <App />
       </MockedProvider>
     </BrowserRouter>,
-    container
+    container,
   );
 
   act(() => {
@@ -120,7 +120,7 @@ it('navigates to /contact when you click Contact', () => {
   });
 
   expect(document.querySelector('.content-container').textContent).toBe(
-    'ContactEmail: easter.egg@email.comTel: 0118 999 881 999 119 7253'
+    'ContactEmail: easter.egg@email.comTel: 0118 999 881 999 119 7253',
   );
 });
 
@@ -131,7 +131,7 @@ it('navigates to /about when you click About', () => {
         <App />
       </MockedProvider>
     </BrowserRouter>,
-    container
+    container,
   );
 
   act(() => {
@@ -140,6 +140,6 @@ it('navigates to /about when you click About', () => {
   });
 
   expect(document.querySelector('.content-container').textContent).toBe(
-    'AboutThis is an easter egg site...'
+    'AboutThis is an easter egg site...',
   );
 });

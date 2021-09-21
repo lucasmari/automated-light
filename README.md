@@ -8,7 +8,7 @@ Light version of [automated-deploy](https://github.com/lucasmari/automated-deplo
 
 ### Architecture
 
-![](.images/Web%20App%20Reference%20Architecture.png)
+![Web App Architecture](.images/Web%20App%20Reference%20Architecture.png)
 Made with [Cloudcraft](https://www.cloudcraft.co/)
 
 ### Infrastructure
