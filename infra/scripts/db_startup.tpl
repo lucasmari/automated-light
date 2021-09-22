@@ -19,6 +19,6 @@ sudo ./aws/install
 
 # Login to ECR, pull image and run container
 aws ecr get-login-password --region us-east-1 \
-| sudo docker login --username AWS --password-stdin ${account_id}.dkr.ecr.us-east-1.amazonaws.com
-sudo docker pull ${account_id}.dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo
-sudo docker run -p '27017:27017' -d ${account_id}.dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo
+| sudo docker login --username AWS --password-stdin "${account_id}".dkr.ecr.us-east-1.amazonaws.com
+sudo docker pull "${account_id}".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo
+sudo docker run -p '27017:27017' -d "${account_id}".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo

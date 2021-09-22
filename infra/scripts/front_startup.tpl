@@ -19,8 +19,8 @@ sudo ./aws/install
 
 # Login to ECR, pull image and run container
 aws ecr get-login-password --region us-east-1 \
-| sudo docker login --username AWS --password-stdin ${account_id}.dkr.ecr.us-east-1.amazonaws.com
-sudo docker pull ${account_id}.dkr.ecr.us-east-1.amazonaws.com/automated-light:node
+| sudo docker login --username AWS --password-stdin "${account_id}".dkr.ecr.us-east-1.amazonaws.com
+sudo docker pull "${account_id}".dkr.ecr.us-east-1.amazonaws.com/automated-light:node
 sudo docker run -p '3000:3000' -d \
--e REACT_APP_BACK_ADDRESS=http://${back_address}:4000/graphql \
-${account_id}.dkr.ecr.us-east-1.amazonaws.com/automated-light:node
+-e REACT_APP_BACK_ADDRESS=http://"${back_address}":4000/graphql \
+"${account_id}".dkr.ecr.us-east-1.amazonaws.com/automated-light:node
