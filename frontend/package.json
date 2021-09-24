@@ -9,6 +9,7 @@
     "graphql": "^15.4.0",
     "graphql-tag": "^2.12.5",
     "history": "^5.0.1",
+    "jshint": "^2.13.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
