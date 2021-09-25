@@ -20,15 +20,8 @@ jobs:
         uses: codacy/codacy-analysis-cli-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          output: results.sarif
-          format: sarif
-          gh-code-scanning-compat: true
           max-allowed-issues: 2147483647
-
-      - name: Upload results
-        uses: github/codeql-action/upload-sarif@main
-        with:
-          sarif_file: results.sarif
+          upload: true
 
   #-------------------------------------------------
   #            ===== [ Backend ] =====

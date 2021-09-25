@@ -67,7 +67,7 @@ Production
 
 ### Development
 
-#### Deployment
+#### Deploy
 
 Prerequisites
 
@@ -77,11 +77,7 @@ Deploy
 
 Run `docker-compose up -d --build` in the root folder, then access the app at *localhost*. :clap:
 
-#### Monitoring
-
-TODO
-
-#### Testing
+#### Test
 
 Prerequisites
 
