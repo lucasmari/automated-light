@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-CSRF_HEADER = "HTTP_#{JWTSessions.csrf_header.downcase.gsub(/-/, '_').upcase}"
-REFRESH_HEADER = "HTTP_#{JWTSessions.refresh_header.downcase.gsub(/-/, '_').upcase}"
+CSRF_HEADER = "HTTP_#{JWTSessions.csrf_header.downcase.tr(/-/, '_').upcase}"
+REFRESH_HEADER = "HTTP_#{JWTSessions.refresh_header.downcase.tr(/-/, '_').upcase}"
 
 module AuthorizationHelper
   def request_cookies

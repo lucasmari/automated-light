@@ -69,10 +69,10 @@ class Application < Sinatra::Application
     set_cookie(result) if result['data'].key?('signInUser') && (result['data']['signInUser']['success'])
 
     json result
-  rescue StandardError => error
-    raise error unless settings.development?
+  rescue StandardError => e
+    raise e unless settings.development?
 
-    handle_error_in_development error
+    handle_error_in_development e
   end
 
   private
