@@ -1,0 +1,6 @@
+---
+engines:
+  eslint:
+    base_sub_dir: "frontend"
+  stylelint:
+    base_sub_dir: "frontend"
