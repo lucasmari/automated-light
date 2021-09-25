@@ -19,6 +19,7 @@ jobs:
       - name: Run Codacy Analysis
         uses: codacy/codacy-analysis-cli-action@master
         with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           output: results.sarif
           format: sarif
           gh-code-scanning-compat: true
