@@ -66,7 +66,7 @@ class Application < Sinatra::Application
     }
     result = ApplicationSchema.execute(query, variables: variables, context: context)
 
-    set_cookie(result) if result['data'].key?('signInUser') && (result['data']['signInUser']['success'])
+    create_cookie(result) if result['data'].key?('signInUser') && (result['data']['signInUser']['success'])
 
     json result
   rescue StandardError => e
