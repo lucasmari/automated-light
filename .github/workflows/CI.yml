@@ -55,7 +55,8 @@ jobs:
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: /home/runner/work/automated-light/automated-light/backend/coverage/lcov/backend.lcov
+          coverage-reports: backend/coverage/lcov/backend.lcov
+          language: Ruby
 
   backend-security-test:
     name: Security Test | Ruby
@@ -127,6 +128,7 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: frontend/coverage/lcov.info
+          language: Javascript
 
   frontend-security-test:
     name: Security Test | Node.js
