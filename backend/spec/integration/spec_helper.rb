@@ -8,11 +8,21 @@ require 'simplecov'
 require 'simplecov-lcov'
 
 SimpleCov::Formatter::LcovFormatter.config.report_with_single_file = true
-SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+                                                                 SimpleCov::Formatter::HTMLFormatter,
+                                                                 SimpleCov::Formatter::LcovFormatter
+                                                               ])
 
 SimpleCov.start do
   add_filter '/config/'
+  add_filter '/spec/'
+
   add_group 'GraphQL', 'graphql'
+  add_group 'Mutations', 'graphql/mutations'
+  add_group 'Resolvers', 'graphql/resolvers'
+  add_group 'Types', 'graphql/types'
+  add_group 'Models', 'models'
+
   enable_coverage :branch
 end
 
