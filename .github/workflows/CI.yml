@@ -51,12 +51,14 @@ jobs:
           ./run_unit_tests.sh
           ./run_integration_tests.sh
 
+      - name: Fix lcov report
+        run: sed -i 's/\.\///g' coverage/lcov/backend.lcov
+
       - name: Run Codacy Coverage Reporter
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: backend/coverage/lcov/backend.lcov
-          language: Ruby
 
   backend-security-test:
     name: Security Test | Ruby
@@ -128,7 +130,6 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: frontend/coverage/lcov.info
-          language: Javascript
 
   frontend-security-test:
     name: Security Test | Node.js
