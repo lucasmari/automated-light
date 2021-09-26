@@ -47,7 +47,9 @@ jobs:
         run: bundle install
 
       - name: Run tests
-        run: ./run_unit_tests.sh
+        run: |
+          ./run_unit_tests.sh
+          ./run_integration_tests.sh
 
       - name: Run Codacy Coverage Reporter
         uses: codacy/codacy-coverage-reporter-action@v1
