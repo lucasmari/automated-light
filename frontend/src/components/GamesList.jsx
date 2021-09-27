@@ -14,7 +14,6 @@ const GAMES_QUERY = gql`
 
 const GamesList = () => {
   const { loading, error, data } = useQuery(GAMES_QUERY, {
-    errorPolicy: 'all',
     onError: ({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         console.log(

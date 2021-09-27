@@ -7,7 +7,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import gql from 'graphql-tag';
-import { createBrowserHistory } from 'history';
 import React, { useState } from 'react';
 
 const CREATE_NEWS_MUTATION = gql`
@@ -19,8 +18,23 @@ const CREATE_NEWS_MUTATION = gql`
   }
 `;
 
+const NEWS_QUERY = gql`
+  query NewsQuery($first: Int, $skip: Int) {
+    news(first: $first, skip: $skip) {
+      id
+      title
+      body
+      user {
+        name
+      }
+    }
+    count {
+      news
+    }
+  }
+`;
+
 const CreateNews = () => {
-  const history = createBrowserHistory({ forceRefresh: true });
   const [formState, setFormState] = useState({
     title: '',
     body: '',
@@ -41,18 +55,15 @@ const CreateNews = () => {
       title: formState.title,
       body: formState.body,
     },
-    onError: (error) => {
-      alert(error);
-    },
-    onCompleted: (data) => {
-      history.push('/');
+    refetchQueries: [
+      NEWS_QUERY,
+      'NewsQuery',
+    ],
+    onCompleted: () => {
       handleClose();
-
-      if (data.createNews.success) {
-        alert('News created!');
-      } else {
-        alert(data.createNews.errors);
-      }
+    },
+    onError: (error) => {
+      console.error(error);
     },
   });
 

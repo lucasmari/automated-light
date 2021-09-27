@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import Button from '@material-ui/core/Button';
 import gql from 'graphql-tag';
 import React from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {
   COOKIE_PATH,
@@ -43,17 +43,16 @@ const getNewsToRender = (isNewPage, data) => {
 };
 
 const NewsList = () => {
+  const history = useHistory();
   const cookies = new Cookies();
   const signedIn = cookies.get(COOKIE_SIGNED_IN_NAME);
-  const history = useHistory();
-  const isNewPage = history.location.pathname.includes('new');
+  const isNewPage = history.location.pathname.includes('news');
   const pageIndexParams = history.location.pathname.split('/');
   const page = parseInt(pageIndexParams[pageIndexParams.length - 1], 10);
   const pageIndex = page ? (page - 1) * NEWS_PER_PAGE : 0;
 
   const { loading, error, data } = useQuery(NEWS_QUERY, {
     variables: getQueryVariables(isNewPage, page),
-    errorPolicy: 'all',
     onError: ({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
         console.log(
@@ -95,7 +94,7 @@ const NewsList = () => {
                 <Button
                   onClick={() => {
                     if (page > 1) {
-                      history.push(`/new/${page - 1}`);
+                      history.push(`/news/${page - 1}`);
                     }
                   }}
                 >
@@ -105,7 +104,7 @@ const NewsList = () => {
                   onClick={() => {
                     if (page < data.count.news / NEWS_PER_PAGE) {
                       const nextPage = page + 1;
-                      history.push(`/new/${nextPage}`);
+                      history.push(`/news/${nextPage}`);
                     }
                   }}
                 >

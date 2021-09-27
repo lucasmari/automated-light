@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import gql from 'graphql-tag';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const NEWS_SEARCH_QUERY = gql`
   query NewsSearch($searchText: String!) {

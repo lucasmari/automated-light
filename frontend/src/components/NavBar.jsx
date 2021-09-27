@@ -1,11 +1,11 @@
-import { createBrowserHistory } from 'history';
 import React from 'react';
-import { Link, NavLink, withRouter } from 'react-router-dom';
+import {
+  Link, NavLink, useHistory, withRouter,
+} from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {
-  COOKIE_SIGNED_IN_NAME,
   COOKIE_PATH,
-  COOKIE_SAME_SITE,
+  COOKIE_SAME_SITE, COOKIE_SIGNED_IN_NAME,
 } from '../constants';
 import '../styles/NavBar.css';
 import logo from './logo.png';
@@ -13,7 +13,7 @@ import SearchBar from './SearchBar';
 import SignIn from './SignIn';
 
 const NavBar = () => {
-  const history = createBrowserHistory({ forceRefresh: true });
+  const history = useHistory();
   const cookies = new Cookies();
   const signedIn = cookies.get(COOKIE_SIGNED_IN_NAME);
 

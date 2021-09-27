@@ -7,9 +7,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import gql from 'graphql-tag';
-import { createBrowserHistory } from 'history';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {
   COOKIE_CSRF_NAME,
@@ -42,7 +41,8 @@ const SIGNIN_MUTATION = gql`
 `;
 
 const SignIn = () => {
-  const history = createBrowserHistory({ forceRefresh: true });
+  const history = useHistory();
+
   const cookies = new Cookies();
 
   const [formState, setFormState] = useState({
