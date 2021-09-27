@@ -19,6 +19,10 @@ Mongoid.load!(File.join(File.dirname(__FILE__), 'config', 'mongoid.yml'))
 class Application < Sinatra::Application
   use Rack::JSONBodyParser
 
+  helpers JWTSessions::Authorization
+
+  helpers AuthorizationHelper
+
   register Sinatra::Cors
   set :allow_credentials, true
   set :allow_headers, 'Content-Type,X-CSRF-TOKEN'
@@ -34,10 +38,6 @@ class Application < Sinatra::Application
   configure :production do
     set :allow_origin, '*'
   end
-
-  helpers JWTSessions::Authorization
-
-  helpers AuthorizationHelper
 
   helpers do
     games = [
