@@ -19,7 +19,7 @@ Made with [Cloudcraft](https://www.cloudcraft.co/)
 
 #### CI/CD
 
-- CircleCI
+- GitHub Actions
 
 #### Cloud Provider
 
