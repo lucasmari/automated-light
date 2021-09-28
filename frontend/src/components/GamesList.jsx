@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import React from 'react';
 import Games from './Games';
 
-const GAMES_QUERY = gql`
+export const GAMES_QUERY = gql`
   query GamesList {
     games {
       id
