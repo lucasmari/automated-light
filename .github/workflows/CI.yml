@@ -188,13 +188,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Validate main code
-        run: terraform validate
+      - name: Format Check in root
+        run: terraform fmt -check
 
-      - name: Validate setup code
+      - name: Format Check in setup
         run: |
           cd setup
-          terraform validate
+          terraform fmt -check
 
   infra-security-test:
     name: Security Test | Terraform
