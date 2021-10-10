@@ -177,6 +177,9 @@ jobs:
   infra-validation:
     name: Validation | Terraform
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infra
 
     steps:
       - name: Checkout repository
@@ -185,8 +188,13 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Run validation
+      - name: Validate main code
         run: terraform validate
+
+      - name: Validate setup code
+        run: |
+          cd setup
+          terraform validate
 
   infra-security-test:
     name: Security Test | Terraform
