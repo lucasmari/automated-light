@@ -8,7 +8,6 @@ CYAN='\e[0;36m'
 echo -e "\n${CYAN}Setting up...\n${NC}"
 cd infra/setup
 terraform init -reconfigure && terraform apply -auto-approve
-terraform output -raw s3_bucket_id | xargs -I sed -I '/bucket/s/".*"/"{}"/' ../main.tf
 cd ../..
 
 # Build containers and push to ECR
@@ -21,7 +20,7 @@ docker build -t "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-l
 docker push "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:node
 docker build -t "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:ruby backend/
 docker push "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:ruby
-docker build -t "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo database
+docker build -t "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo database/
 docker push "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo
 
 # Deploy

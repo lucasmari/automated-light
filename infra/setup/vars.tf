@@ -9,3 +9,11 @@ variable "tags" {
     Terraform   = true
   }
 }
+
+#-------------------------------------------------
+#               ===== [ S3 ] =====               
+#-------------------------------------------------
+
+variable "bucket_name" {
+  default = "automated-light-state"
+}

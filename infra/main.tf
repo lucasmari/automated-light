@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket = "c4ef5d05-11ff-05e7-5590-39cf4b6ab9d5"
-    key    = "app/terraform.tfstate"
+    bucket = "automated-light-state"
+    key    = "terraform.tfstate"
     region = "us-east-1"
   }
 }

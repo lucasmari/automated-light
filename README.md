@@ -13,10 +13,6 @@ Made with [Cloudcraft](https://www.cloudcraft.co/)
 
 ### Infrastructure
 
-#### CDN
-
-- CloudFront
-
 #### CI/CD
 
 - GitHub Actions

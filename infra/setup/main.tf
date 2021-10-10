@@ -2,8 +2,6 @@ provider "aws" {
   region = var.region
 }
 
-resource "random_uuid" "randomid" {}
-
 #-------------------------------------------------
 #               ===== [ ECR ] =====               
 #-------------------------------------------------
@@ -11,9 +9,11 @@ resource "random_uuid" "randomid" {}
 resource "aws_ecr_repository" "repo" {
   name                 = "automated-light"
   image_tag_mutability = "IMMUTABLE"
+
   encryption_configuration {
     encryption_type = "KMS"
   }
+
   image_scanning_configuration {
     scan_on_push = true
   }
@@ -36,18 +36,17 @@ resource "aws_kms_key" "this" {
 #-------------------------------------------------
 
 resource "aws_s3_bucket" "terraform_state" {
-  bucket        = random_uuid.randomid.result
+  bucket        = var.bucket_name
   force_destroy = true
-  logging {
-    enabled = true
-  }
+
   versioning {
     enabled = true
   }
+
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        kms_master_key_id = aws_kms_key.mykey.arn
+        kms_master_key_id = aws_kms_key.this.arn
         sse_algorithm     = "aws:kms"
       }
     }
