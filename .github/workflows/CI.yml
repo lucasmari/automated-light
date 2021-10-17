@@ -174,8 +174,8 @@ jobs:
   #             ===== [ Infra ] =====
   #-------------------------------------------------
 
-  infra-validation:
-    name: Validation | Terraform
+  infra-check:
+    name: Check | Terraform
     runs-on: ubuntu-latest
     defaults:
       run:
