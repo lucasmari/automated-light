@@ -1,0 +1,9 @@
+actions: actions/*
+backend: backend/*
+bug: bug/*
+database: database/*
+dependencies: dependencies/*
+docs: docs/*
+feature: feature/*
+frontend: frontend/*
+infra: infra/*
