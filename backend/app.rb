@@ -4,12 +4,13 @@ require 'jwt_sessions'
 require 'mongoid'
 require 'rack/contrib'
 require 'sinatra/base'
-require 'sinatra/cors'
 require 'sinatra/json'
 require 'sinatra/reloader'
 require 'sysrandom/securerandom'
-require_relative './auth'
 require_relative './graphql/schema'
+
+CSRF_HEADER = "HTTP_#{JWTSessions.csrf_header.downcase.tr('-', '_').upcase}"
+REFRESH_HEADER = "HTTP_#{JWTSessions.refresh_header.downcase.tr('-', '_').upcase}"
 
 Dir['./graphql/types/*'].sort.each { |file| require file }
 Dir['./models/*'].sort.each { |file| require file }
@@ -19,25 +20,11 @@ Mongoid.load!(File.join(File.dirname(__FILE__), 'config', 'mongoid.yml'))
 class Application < Sinatra::Application
   use Rack::JSONBodyParser
 
-  register Sinatra::Cors
-  set :allow_credentials, true
-  set :allow_headers, 'Content-Type,X-CSRF-TOKEN'
-  set :allow_methods, 'POST,OPTIONS'
-  set :max_age, '86400'
-
   configure :development do
     register Sinatra::Reloader
-
-    set :allow_origin, 'http://localhost'
   end
 
-  configure :production do
-    set :allow_origin, '*'
-  end
-
-  helpers JWTSessions::Authorization
-
-  helpers AuthorizationHelper
+  include JWTSessions::Authorization
 
   helpers do
     games = [
@@ -56,6 +43,16 @@ class Application < Sinatra::Application
     ]
 
     Game.create!(games) unless Game.exists?
+  end
+
+  before do
+    headers['Access-Control-Allow-Credentials'] = true
+    headers['Access-Control-Allow-Origin'] = 'http://localhost'
+  end
+
+  options '*' do
+    response.headers['Allow'] = 'POST'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,X-CSRF-TOKEN'
   end
 
   post '/graphql' do
@@ -106,5 +103,20 @@ class Application < Sinatra::Application
                                                    httponly: true,
                                                    same_site: 'Strict',
                                                    secure: settings.production?)
+  end
+
+  def request_cookies
+    request.cookies
+  end
+
+  def request_headers
+    jwt_headers = {}
+    jwt_headers[JWTSessions.refresh_header] = request.env[REFRESH_HEADER] if request.env[REFRESH_HEADER]
+    jwt_headers[JWTSessions.csrf_header] = request.env[CSRF_HEADER] if request.env[CSRF_HEADER]
+    jwt_headers
+  end
+
+  def request_method
+    request.request_method
   end
 end

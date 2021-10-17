@@ -12,10 +12,8 @@ gem 'rubocop', require: false
 gem 'search_object_graphql'
 gem 'sinatra'
 gem 'sinatra-contrib'
-gem 'sinatra-cors'
 gem 'sysrandom'
 group :test do
-  gem 'codecov'
   gem 'database_cleaner-mongoid'
   gem 'factory_bot'
   gem 'mongoid-rspec'
