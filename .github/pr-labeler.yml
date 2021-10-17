@@ -1,9 +1,9 @@
-actions: actions/*
+actions: "*actions/*"
 backend: backend/*
 bug: bug/*
 database: database/*
 dependencies: dependencies/*
 docs: docs/*
-feature: feature/*
+feature: feat-*/*
 frontend: frontend/*
 infra: infra/*
