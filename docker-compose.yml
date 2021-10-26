@@ -3,6 +3,12 @@ services:
   db:
     build: database
     restart: always
+  db-seed:
+    build: 
+      context: database/seed
+      dockerfile: Dockerfile.dev
+    links:
+      - db
   app-back:
     build: backend
     ports:

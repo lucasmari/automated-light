@@ -1,0 +1,4 @@
+FROM mongo:5.0.3
+
+COPY init.json /init.json
+CMD mongoimport --host db --db mongoid_prod --collection games --type json --file /init.json --jsonArray

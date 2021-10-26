@@ -245,6 +245,13 @@ module "sg_db" {
   name   = "db"
   vpc_id = module.vpc.vpc_id
 
+  ingress_with_cidr_blocks = [
+    {
+      rule        = "ssh-tcp"
+      cidr_blocks = "${data.external.my_ip.result.ip}/32"
+    },
+  ]
+
   ingress_with_source_security_group_id = [
     {
       from_port                = 27017
