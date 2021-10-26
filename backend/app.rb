@@ -26,25 +26,6 @@ class Application < Sinatra::Application
 
   include JWTSessions::Authorization
 
-  helpers do
-    games = [
-      {
-        name: 'Portal 2'
-      },
-      {
-        name: "No Man's Sky"
-      },
-      {
-        name: 'The Stanley Parable'
-      },
-      {
-        name: 'Papers, Please'
-      }
-    ]
-
-    Game.create!(games) unless Game.exists?
-  end
-
   before do
     headers['Access-Control-Allow-Credentials'] = true
     headers['Access-Control-Allow-Origin'] = 'http://localhost'

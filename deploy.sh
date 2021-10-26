@@ -22,6 +22,8 @@ docker build -t "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-l
 docker push "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:ruby
 docker build -t "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo database/
 docker push "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo
+docker build -t "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo-seed -f database/seed/Dockerfile.prod database/seed
+docker push "$TF_VAR_account_id".dkr.ecr.us-east-1.amazonaws.com/automated-light:mongo-seed
 
 # Deploy
 echo -e "\n${CYAN}Deploying...\n${NC}"

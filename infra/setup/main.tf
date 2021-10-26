@@ -7,8 +7,7 @@ provider "aws" {
 #-------------------------------------------------
 
 resource "aws_ecr_repository" "repo" {
-  name                 = "automated-light"
-  image_tag_mutability = "IMMUTABLE"
+  name = "automated-light"
 
   encryption_configuration {
     encryption_type = "KMS"
