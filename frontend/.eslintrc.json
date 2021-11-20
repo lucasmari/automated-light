@@ -6,7 +6,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "plugin:cypress/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {
@@ -18,5 +19,8 @@
     "plugins": [
         "react"
     ],
-    "rules": {}
+    "rules": {
+        "no-alert": "off",
+        "no-console": "off"
+    }
 }

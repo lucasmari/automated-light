@@ -1,0 +1,8 @@
+{
+    "baseUrl": "http://localhost",
+    "viewportWidth": 1920,
+    "viewportHeight": 1080,
+    "testFiles": "**/*.{spec,test}.{js,ts,jsx,tsx}",
+    "componentFolder": "src",
+    "video": false
+}

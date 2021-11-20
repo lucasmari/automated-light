@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import Button from '@material-ui/core/Button';
 import gql from 'graphql-tag';
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {
   COOKIE_PATH,
@@ -13,7 +13,7 @@ import {
 import CreateNews from './CreateNews';
 import News from './News';
 
-const NEWS_QUERY = gql`
+export const NEWS_QUERY = gql`
   query NewsQuery($first: Int, $skip: Int) {
     news(first: $first, skip: $skip) {
       id
@@ -29,33 +29,26 @@ const NEWS_QUERY = gql`
   }
 `;
 
-const getQueryVariables = (isNewPage, page) => {
-  const skip = isNewPage ? (page - 1) * NEWS_PER_PAGE : 0;
-  const first = isNewPage ? NEWS_PER_PAGE : 100;
+const getQueryVariables = (page) => {
+  const skip = (page - 1) * NEWS_PER_PAGE;
+  const first = NEWS_PER_PAGE;
   return { first, skip };
-};
-
-const getNewsToRender = (isNewPage, data) => {
-  if (isNewPage) {
-    return data.news;
-  }
-  return '';
 };
 
 const NewsList = () => {
   const history = useHistory();
+  const location = useLocation();
   const cookies = new Cookies();
   const signedIn = cookies.get(COOKIE_SIGNED_IN_NAME);
-  const isNewPage = history.location.pathname.includes('news');
-  const pageIndexParams = history.location.pathname.split('/');
+  const pageIndexParams = location.pathname.split('/');
   const page = parseInt(pageIndexParams[pageIndexParams.length - 1], 10);
   const pageIndex = page ? (page - 1) * NEWS_PER_PAGE : 0;
 
   const { loading, error, data } = useQuery(NEWS_QUERY, {
-    variables: getQueryVariables(isNewPage, page),
+    variables: getQueryVariables(page),
     onError: ({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        console.log(
+        console.error(
           `[GraphQL error]: ${JSON.stringify(graphQLErrors, null, 2)}`,
         );
       }
@@ -68,7 +61,7 @@ const NewsList = () => {
           });
           history.push('/');
         } else {
-          console.log(
+          console.error(
             `[Network error]: ${JSON.stringify(networkError, null, 2)}`,
           );
         }
@@ -86,32 +79,30 @@ const NewsList = () => {
         </div>
         {data && data.count.news > 0 ? (
           <>
-            {getNewsToRender(isNewPage, data).map((news, index) => (
+            {data.news.map((news, index) => (
               <News key={news.id} news={news} index={index + pageIndex} />
             ))}
-            {isNewPage && (
-              <div className="pagination">
-                <Button
-                  onClick={() => {
-                    if (page > 1) {
-                      history.push(`/news/${page - 1}`);
-                    }
-                  }}
-                >
-                  &#60;
-                </Button>
-                <Button
-                  onClick={() => {
-                    if (page < data.count.news / NEWS_PER_PAGE) {
-                      const nextPage = page + 1;
-                      history.push(`/news/${nextPage}`);
-                    }
-                  }}
-                >
-                  &#62;
-                </Button>
-              </div>
-            )}
+            <div className="pagination">
+              <Button
+                onClick={() => {
+                  if (page > 1) {
+                    history.push(`/news/${page - 1}`);
+                  }
+                }}
+              >
+                &#60;
+              </Button>
+              <Button
+                onClick={() => {
+                  if (page < data.count.news / NEWS_PER_PAGE) {
+                    const nextPage = page + 1;
+                    history.push(`/news/${nextPage}`);
+                  }
+                }}
+              >
+                &#62;
+              </Button>
+            </div>
           </>
         ) : (
           <>
