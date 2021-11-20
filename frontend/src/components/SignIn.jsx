@@ -47,12 +47,12 @@ const SignIn = () => {
 
   const [formState, setFormState] = useState({
     signin: true,
+    name: '',
     email: '',
     password: '',
-    name: '',
   });
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -77,6 +77,12 @@ const SignIn = () => {
           path: COOKIE_PATH,
           sameSite: COOKIE_SAME_SITE,
         });
+        setFormState({
+          signin: true,
+          name: '',
+          email: '',
+          password: '',
+        });
         history.push('/');
         handleClose();
       } else alert(data.signInUser.error);
@@ -92,6 +98,12 @@ const SignIn = () => {
     onCompleted: (data) => {
       if (data.createUser.success) {
         alert('Account created!');
+        setFormState({
+          signin: false,
+          name: '',
+          email: '',
+          password: '',
+        });
         history.push('/');
         handleClose();
       } else alert(data.createUser.errors);
@@ -122,7 +134,7 @@ const SignIn = () => {
           <DialogContentText>
             {formState.signin
               ? 'Please enter your email and password'
-              : 'Welcome, please enter name, email and password'}
+              : 'Welcome, please enter your name, email and password'}
           </DialogContentText>
           {!formState.signin && (
             <TextField

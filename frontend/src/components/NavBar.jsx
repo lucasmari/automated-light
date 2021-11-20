@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Link, NavLink, useHistory, withRouter,
+  Link, NavLink, withRouter,
 } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import {
@@ -13,7 +13,6 @@ import SearchBar from './SearchBar';
 import SignIn from './SignIn';
 
 const NavBar = () => {
-  const history = useHistory();
   const cookies = new Cookies();
   const signedIn = cookies.get(COOKIE_SIGNED_IN_NAME);
 
@@ -44,7 +43,6 @@ const NavBar = () => {
               path: COOKIE_PATH,
               sameSite: COOKIE_SAME_SITE,
             });
-            history.push('/');
           }}
         >
           Sign Out

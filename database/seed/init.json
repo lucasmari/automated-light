@@ -1,14 +1,18 @@
 [
     {
+        "_id": 1,
         "name": "Portal 2"
     },
     {
+        "_id": 2,
         "name": "No Man's Sky"
     },
     {
+        "_id": 3,
         "name": "The Stanley Parable"
     },
     {
+        "_id": 4,
         "name": "Papers, Please"
     }
 ]

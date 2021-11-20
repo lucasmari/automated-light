@@ -60,6 +60,10 @@ const CreateNews = () => {
       'NewsQuery',
     ],
     onCompleted: () => {
+      setFormState({
+        title: '',
+        body: '',
+      });
       handleClose();
     },
     onError: (error) => {
@@ -115,8 +119,8 @@ const CreateNews = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={createNews}>Create</Button>
+          <Button onClick={handleClose}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </div>
