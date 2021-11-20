@@ -44,6 +44,7 @@ describe('News', () => {
   });
 
   it('should contain news', () => {
+    // eslint-disable-next-line consistent-return
     cy.wrap(news).each((n) => {
       cy.get(`.content-container > :nth-child(${n.child}) > .news > div > h3`).should('have.text', n.title);
       cy.get(`.content-container > :nth-child(${n.child}) > .news > div > :nth-child(2)`).should('have.text', n.body);
