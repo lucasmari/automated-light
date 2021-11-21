@@ -72,10 +72,12 @@ Prerequisites
 Deploy
 
 First export these environment variables to use BuildKit:
-```
+
+```bash
 export DOCKER_BUILDKIT=1 && \
-export COMPOSE_DOCKER_CLI_BUILD=1 
+export COMPOSE_DOCKER_CLI_BUILD=1
 ```
+
 Run `docker-compose up -d --build` in the root folder, then access the app at *localhost*. :clap:
 
 #### Test

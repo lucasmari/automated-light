@@ -39,7 +39,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Start app
-        run: docker-compose -f docker-compose.ci.yml up -d
+        run: |
+          export DOCKER_BUILDKIT=1
+          export COMPOSE_DOCKER_CLI_BUILD=1
+          docker-compose -f docker-compose.ci.yml up -d
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
