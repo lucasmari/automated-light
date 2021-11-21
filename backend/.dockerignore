@@ -1,1 +1,7 @@
 .bundle
+coverage
+spec
+.rspec
+docker-compose.yml
+Dockerfile
+*.sh
