@@ -1,0 +1,21 @@
+[
+    {
+        "child": 2,
+        "title": "Awesome news 1",
+        "body": "Wow, amazing easter egg 1"
+    },
+    {
+        "child": 3,
+        "title": "Awesome news 2",
+        "body": "Wow, amazing easter egg 2"
+    },
+    {
+        "child": 4,
+        "title": "Awesome news 3",
+        "body": "Wow, amazing easter egg 3"
+    },
+    {
+        "title": "Awesome news 4",
+        "body": "Wow, amazing easter egg 4"
+    }
+]

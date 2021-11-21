@@ -5,24 +5,27 @@ describe('Authentication', () => {
   });
 
   beforeEach(() => {
-    Cypress.Cookies.preserveOnce('csrf', 'jwt_access', 'signed_in');
-    Cypress.Cookies.debug(true);
+    cy.fixture('cookies').then((cookies) => {
+      cy.wrap(cookies).each((cookie) => {
+        Cypress.Cookies.preserveOnce(cookie.name);
+      });
+    });
   });
 
   after(() => {
     cy.task('clearUsers');
   });
 
-  const name = 'Lucas';
-  const email = 'lucas@email.com';
-  const password = '123456';
-
   it('successfully signs up', () => {
-    cy.signup(name, email, password);
+    cy.fixture('user').then((user) => {
+      cy.signup(user.name, user.email, user.password);
+    });
   });
 
   it('successfully signs in', () => {
-    cy.signin(email, password);
+    cy.fixture('user').then((user) => {
+      cy.signin(user.email, user.password);
+    });
   });
 
   it('successfully signs out', () => {
@@ -30,29 +33,17 @@ describe('Authentication', () => {
   });
 
   it('should contain correct cookies', () => {
-    cy.getCookies()
-      .should('have.length', 3)
-      .then((cookies) => {
-        expect(cookies[0]).to.have.property('name', 'jwt_access');
-        expect(cookies[0]).to.have.property('value');
-        expect(cookies[0]).to.have.property('domain', 'localhost');
-        expect(cookies[0]).to.have.property('path', '/');
-        expect(cookies[0]).to.have.property('httpOnly', true);
-        expect(cookies[0]).to.have.property('sameSite', 'strict');
-
-        expect(cookies[1]).to.have.property('name', 'csrf');
-        expect(cookies[1]).to.have.property('value');
-        expect(cookies[1]).to.have.property('domain', 'localhost');
-        expect(cookies[1]).to.have.property('path', '/');
-        expect(cookies[1]).to.have.property('httpOnly', false);
-        expect(cookies[1]).to.have.property('sameSite', 'strict');
-
-        expect(cookies[2]).to.have.property('name', 'signed_in');
-        expect(cookies[2]).to.have.property('value', '');
-        expect(cookies[2]).to.have.property('domain', 'localhost');
-        expect(cookies[2]).to.have.property('path', '/');
-        expect(cookies[2]).to.have.property('httpOnly', false);
-        expect(cookies[2]).to.have.property('sameSite', 'strict');
+    cy.fixture('cookies').then((cookies) => {
+      cy.wrap(cookies).each((cookie) => {
+        cy.getCookie(cookie.name)
+          .then((c) => {
+            expect(c).to.have.property('value');
+            expect(c).to.have.property('domain', cookie.domain);
+            expect(c).to.have.property('path', cookie.path);
+            expect(c).to.have.property('httpOnly', cookie.httpOnly);
+            expect(c).to.have.property('sameSite', cookie.sameSite);
+          });
       });
+    });
   });
 });
