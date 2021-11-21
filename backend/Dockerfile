@@ -1,7 +1,10 @@
-FROM ruby:3.0.2
-WORKDIR /home/sinatra/app
-RUN bundle config --global frozen 1
-COPY Gemfile Gemfile.lock ./
-RUN bundle install
+FROM ruby:alpine
+
+WORKDIR /home/app
 COPY . .
+RUN apk add --update --no-cache build-base && \
+bundle config set --global frozen 'true' && \
+bundle config set --global without 'test' && \
+bundle install --jobs $(nproc) --quiet
+
 CMD ["bundle", "exec", "puma", "-C", "puma.rb"]

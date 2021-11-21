@@ -1,2 +1,10 @@
+__mocks__
+.vscode
+build
+coverage
+cypress
 node_modules
-npm-debug.log
+.eslintrc.json
+.stylelintrc.json
+cypress.json
+Dockerfile

@@ -6,9 +6,12 @@ on:
 
 jobs:
   pr-labeler:
+    name: PR Labeler
     runs-on: ubuntu-latest
+
     steps:
-      - uses: TimonVS/pr-labeler-action@v3
+      - name: Label
+        uses: TimonVS/pr-labeler-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -44,7 +47,7 @@ jobs:
           node-version: 16.x
 
       - name: Install modules
-        run: yarn install
+        run: yarn install -s
         working-directory: ./frontend
 
       - name: Run Cypress tests
@@ -75,7 +78,7 @@ jobs:
           ruby-version: "2.7"
 
       - name: Install gems
-        run: bundle install
+        run: bundle install --jobs $(nproc) --quiet
 
       - name: Run tests
         run: |
@@ -151,7 +154,7 @@ jobs:
           node-version: 16.x
 
       - name: Install modules
-        run: yarn install
+        run: yarn install -s
 
       - name: Run tests
         run: yarn jest --coverage /src/components

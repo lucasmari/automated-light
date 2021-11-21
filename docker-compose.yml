@@ -16,12 +16,16 @@ services:
     ports:
       - '4000:4000'
     volumes:
-      - ./backend:/home/sinatra/app
+      - ./backend:/home/app
+      - /home/app/.bundle/
+      - /home/app/coverage/
+      - /home/app/spec/
   app-front:
     build: frontend
     ports:
       - '80:3000'
     volumes:
-      - ./frontend:/home/react/app
+      - ./frontend/public:/home/app/public
+      - ./frontend/src:/home/app/src
     environment:
       - REACT_APP_BACK_ADDRESS=http://localhost:4000/graphql
