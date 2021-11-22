@@ -10,49 +10,48 @@ describe('News', () => {
     cy.task('clearUsers');
   });
 
-  const name = 'Lucas';
-  const email = 'lucas@email.com';
-  const password = '123456';
-
-  const news = [
-    { child: 2, title: 'Awesome news 1', body: 'Wow, amazing easter egg 1' },
-    { child: 3, title: 'Awesome news 2', body: 'Wow, amazing easter egg 2' },
-    { child: 4, title: 'Awesome news 3', body: 'Wow, amazing easter egg 3' },
-    { title: 'Awesome news 4', body: 'Wow, amazing easter egg 4' },
-  ];
-
   it('should contain correct elements', () => {
     cy.get('h1').should('have.text', 'News');
     cy.get('p').should('have.text', 'No news...');
   });
 
   it('successfully signs up', () => {
-    cy.signup(name, email, password);
+    cy.fixture('user').then((user) => {
+      cy.signup(user.name, user.email, user.password);
+    });
   });
 
   it('successfully signs in', () => {
-    cy.signin(email, password);
+    cy.fixture('user').then((user) => {
+      cy.signin(user.email, user.password);
+    });
   });
 
   it('successfully creates news', () => {
-    cy.wrap(news).each((n) => {
-      cy.get('.content-subcontainer > div > .MuiButtonBase-root').click();
-      cy.get('#title').type(n.title).should('have.value', n.title);
-      cy.get('#body').type(n.body).should('have.value', n.body);
-      cy.get('.MuiDialogActions-root > :nth-child(1)').click();
+    cy.fixture('news').then((news) => {
+      cy.wrap(news).each((n) => {
+        cy.get('.content-subcontainer > div > .MuiButtonBase-root').click();
+        cy.get('#title').type(n.title).should('have.value', n.title);
+        cy.get('#body').type(n.body).should('have.value', n.body);
+        cy.get('.MuiDialogActions-root > :nth-child(1)').click();
+      });
     });
   });
 
   it('should contain news', () => {
-    // eslint-disable-next-line consistent-return
-    cy.wrap(news).each((n) => {
-      cy.get(`.content-container > :nth-child(${n.child}) > .news > div > h3`).should('have.text', n.title);
-      cy.get(`.content-container > :nth-child(${n.child}) > .news > div > :nth-child(2)`).should('have.text', n.body);
-      cy.get(`.content-container > :nth-child(${n.child}) > .news > div > :nth-child(3)`).should('have.text', `Posted by: ${name}`);
+    cy.fixture('news').then((news) => {
+      cy.fixture('user').then((user) => {
+        // eslint-disable-next-line consistent-return
+        cy.wrap(news).each((n) => {
+          cy.get(`.content-container > :nth-child(${n.child}) > .news > div > h3`).should('have.text', n.title);
+          cy.get(`.content-container > :nth-child(${n.child}) > .news > div > :nth-child(2)`).should('have.text', n.body);
+          cy.get(`.content-container > :nth-child(${n.child}) > .news > div > :nth-child(3)`).should('have.text', `Posted by: ${user.name}`);
 
-      if (n.child === 4) {
-        return false;
-      }
+          if (n.child === 4) {
+            return false;
+          }
+        });
+      });
     });
   });
 
@@ -62,9 +61,13 @@ describe('News', () => {
   });
 
   it('should contain more news', () => {
-    cy.get('.content-container > :nth-child(2) > .news > div > h3').should('have.text', news[3].title);
-    cy.get('.content-container > :nth-child(2) > .news > div > :nth-child(2)').should('have.text', news[3].body);
-    cy.get('.content-container > :nth-child(2) > .news > div > :nth-child(3)').should('have.text', `Posted by: ${name}`);
+    cy.fixture('news').then((news) => {
+      cy.fixture('user').then((user) => {
+        cy.get('.content-container > :nth-child(2) > .news > div > h3').should('have.text', news[3].title);
+        cy.get('.content-container > :nth-child(2) > .news > div > :nth-child(2)').should('have.text', news[3].body);
+        cy.get('.content-container > :nth-child(2) > .news > div > :nth-child(3)').should('have.text', `Posted by: ${user.name}`);
+      });
+    });
   });
 
   it('successfully goes back', () => {

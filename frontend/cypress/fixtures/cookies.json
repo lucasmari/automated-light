@@ -1,0 +1,26 @@
+[
+    {
+        "index": 0,
+        "name": "jwt_access",
+        "domain": "localhost",
+        "path": "/",
+        "httpOnly": true,
+        "sameSite": "strict"
+    },
+    {
+        "index": 1,
+        "name": "csrf",
+        "domain": "localhost",
+        "path": "/",
+        "httpOnly": false,
+        "sameSite": "strict"
+    },
+    {
+        "index": 2,
+        "name": "signed_in",
+        "domain": "localhost",
+        "path": "/",
+        "httpOnly": false,
+        "sameSite": "strict"
+    }
+]
