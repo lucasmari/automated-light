@@ -12,15 +12,11 @@ services:
     links:
       - db
   app-back:
-    build: 
-      context: backend
-      dockerfile: Dockerfile.ci
+    build: backend
     ports:
       - '4000:4000'
   app-front:
-    build: 
-      context: frontend
-      dockerfile: Dockerfile.ci
+    build: frontend
     ports:
       - '80:3000'
     environment:

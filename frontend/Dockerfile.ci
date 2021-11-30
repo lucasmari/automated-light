@@ -1,8 +1,0 @@
-FROM node:alpine
-
-WORKDIR /home/app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --prod -s
-COPY . .
-
-CMD ["yarn", "start"]
