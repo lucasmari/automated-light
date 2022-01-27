@@ -107,7 +107,9 @@ const NewsList = () => {
         ) : (
           <>
             {error ? (
-              <p>Error :(</p>
+              <div>
+                <p>Error :(</p>
+              </div>
             ) : (
               <div>
                 <p>No news...</p>
