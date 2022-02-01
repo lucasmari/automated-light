@@ -105,15 +105,17 @@ const NewsList = () => {
             </div>
           </>
         ) : (
-          <>
+          <div>
             {error ? (
-              <p>Error :(</p>
+              <div>
+                <p>Error :(</p>
+              </div>
             ) : (
               <div>
                 <p>No news...</p>
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
     </>
