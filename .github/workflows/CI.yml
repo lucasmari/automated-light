@@ -54,7 +54,7 @@ jobs:
         working-directory: ./frontend
 
       - name: Run Cypress tests
-        run: yarn cypress run
+        run: yarn cypress run --headless --browser firefox
         working-directory: ./frontend
 
       - name: Stop app
