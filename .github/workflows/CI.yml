@@ -160,7 +160,7 @@ jobs:
         run: yarn install -s
 
       - name: Run tests
-        run: yarn jest --coverage /src/components
+        run: yarn test --coverage a
 
       - name: Run Codacy Coverage Reporter
         uses: codacy/codacy-coverage-reporter-action@v1
