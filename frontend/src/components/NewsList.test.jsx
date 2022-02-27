@@ -3,7 +3,8 @@ import { act, render } from '@testing-library/react';
 import { GraphQLError } from 'graphql';
 import React from 'react';
 import { unmountComponentAtNode } from 'react-dom';
-import GamesList, { GAMES_QUERY } from './GamesList';
+import { MemoryRouter } from 'react-router-dom';
+import NewsList, { NEWS_QUERY } from './NewsList';
 
 let container = null;
 const consoleOutput = [];
@@ -26,34 +27,49 @@ afterEach(() => {
 const mocks = [
   {
     request: {
-      query: GAMES_QUERY,
+      query: NEWS_QUERY,
+      variables: {
+        first: 3,
+        skip: 0,
+      },
     },
     result: {
       data: {
-        games: [
+        news: [
           {
             id: '1',
-            name: 'Portal 2',
-          },
-          {
-            id: '2',
-            name: 'Stanley Parable',
+            title: 'New Easter Egg',
+            body: 'Wow, amazing',
+            user: { name: 'me' },
           },
         ],
+        count: {
+          news: 1,
+        },
       },
     },
   },
 
   {
     request: {
-      query: GAMES_QUERY,
+      query: NEWS_QUERY,
+      variables: {
+        first: 3,
+        skip: 0,
+      },
     },
-    error: new Error('Error :('),
+    networkError: {
+      result: {
+        error: {
+          unauthorized: true,
+        },
+      },
+    },
   },
 
   {
     request: {
-      query: GAMES_QUERY,
+      query: NEWS_QUERY,
     },
     result: {
       errors: [new GraphQLError('Error :(')],
@@ -61,37 +77,50 @@ const mocks = [
   },
 ];
 
-it('returns the loading state', () => {
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: '/news/1',
+  }),
+}));
+
+it('returns the loading state', async () => {
   render(
-    <MockedProvider mocks={[mocks[0]]} addTypename={false}>
-      <GamesList />
-    </MockedProvider>,
+    <MemoryRouter>
+      <MockedProvider mocks={[mocks[0]]} addTypename={false}>
+        <NewsList />
+      </MockedProvider>
+    </MemoryRouter>,
     container,
   );
 
   expect(document.querySelector('p').textContent).toBe('Loading...');
 });
 
-it('returns a list of games', async () => {
+it('returns a list of news', async () => {
   render(
-    <MockedProvider mocks={[mocks[0]]} addTypename={false}>
-      <GamesList />
-    </MockedProvider>,
+    <MemoryRouter>
+      <MockedProvider mocks={[mocks[0]]} addTypename={false}>
+        <NewsList />
+      </MockedProvider>
+    </MemoryRouter>,
     container,
   );
 
   await act(() => new Promise((resolve) => { setTimeout(resolve, 0); }));
 
   expect(document.querySelector('.content-container').textContent).toBe(
-    'GamesPortal 2Stanley Parable',
+    'NewsNew Easter EggWow, amazingPosted by: me<>',
   );
 });
 
 it('returns an error', async () => {
   render(
-    <MockedProvider mocks={[mocks[1]]} addTypename={false}>
-      <GamesList />
-    </MockedProvider>,
+    <MemoryRouter>
+      <MockedProvider mocks={[mocks[1]]} addTypename={false}>
+        <NewsList />
+      </MockedProvider>
+    </MemoryRouter>,
     container,
   );
 
@@ -105,15 +134,17 @@ it('returns an error', async () => {
 
 it('returns a GraphQL error', async () => {
   render(
-    <MockedProvider mocks={[mocks[2]]} addTypename={false}>
-      <GamesList />
-    </MockedProvider>,
+    <MemoryRouter>
+      <MockedProvider mocks={[mocks[2]]} addTypename={false}>
+        <NewsList />
+      </MockedProvider>
+    </MemoryRouter>,
     container,
   );
 
   await act(() => new Promise((resolve) => { setTimeout(resolve, 0); }));
 
   expect(consoleOutput[2]).toBe(
-    '[GraphQL error]: [\n  {\n    "message": "Error :("\n  }\n]',
+    '[GraphQL error]: []',
   );
 });
