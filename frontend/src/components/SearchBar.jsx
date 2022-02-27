@@ -35,19 +35,17 @@ const SearchBar = () => {
   }, [data, history]);
 
   return (
-    <>
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search..."
-          name="search"
-          onChange={(e) => setSearchFilter(e.target.value)}
-        />
-        <button type="button" onClick={executeSearch}>
-          <em className="fa fa-search" />
-        </button>
-      </div>
-    </>
+    <div className="search-container">
+      <input
+        type="text"
+        placeholder="Search..."
+        name="search"
+        onChange={(e) => setSearchFilter(e.target.value)}
+      />
+      <button type="button" onClick={executeSearch}>
+        <em className="fa fa-search" />
+      </button>
+    </div>
   );
 };
 
