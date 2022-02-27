@@ -48,7 +48,7 @@ const NewsList = () => {
     variables: getQueryVariables(page),
     onError: ({ graphQLErrors, networkError }) => {
       if (graphQLErrors) {
-        console.error(
+        console.log(
           `[GraphQL error]: ${JSON.stringify(graphQLErrors, null, 2)}`,
         );
       }
@@ -61,7 +61,7 @@ const NewsList = () => {
           });
           history.push('/');
         } else {
-          console.error(
+          console.log(
             `[Network error]: ${JSON.stringify(networkError, null, 2)}`,
           );
         }
@@ -77,44 +77,45 @@ const NewsList = () => {
           <h1>News</h1>
           {signedIn && <CreateNews />}
         </div>
-        {data && data.count.news > 0 ? (
-          <>
-            {data.news.map((news, index) => (
-              <News key={news.id} news={news} index={index + pageIndex} />
-            ))}
-            <div className="pagination">
-              <Button
-                onClick={() => {
-                  if (page > 1) {
-                    history.push(`/news/${page - 1}`);
-                  }
-                }}
-              >
-                &#60;
-              </Button>
-              <Button
-                onClick={() => {
-                  if (page < data.count.news / NEWS_PER_PAGE) {
-                    const nextPage = page + 1;
-                    history.push(`/news/${nextPage}`);
-                  }
-                }}
-              >
-                &#62;
-              </Button>
-            </div>
-          </>
-        ) : (
-          <>
-            {error ? (
-              <p>Error :(</p>
-            ) : (
-              <div>
-                <p>No news...</p>
+        {data && data.count.news > 0
+          ? (
+            <>
+              {data.news.map((news, index) => (
+                <News key={news.id} news={news} index={index + pageIndex} />
+              ))}
+              <div className="pagination">
+                <Button
+                  onClick={() => {
+                    if (page > 1) {
+                      history.push(`/news/${page - 1}`);
+                    }
+                  }}
+                >
+                  &#60;
+                </Button>
+                <Button
+                  onClick={() => {
+                    if (page < data.count.news / NEWS_PER_PAGE) {
+                      const nextPage = page + 1;
+                      history.push(`/news/${nextPage}`);
+                    }
+                  }}
+                >
+                  &#62;
+                </Button>
               </div>
-            )}
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              {error ? (
+                <p>Error :(</p>
+              ) : (
+                <div>
+                  <p>No news...</p>
+                </div>
+              )}
+            </>
+          )}
       </div>
     </>
   );
