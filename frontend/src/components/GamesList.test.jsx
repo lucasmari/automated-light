@@ -98,6 +98,9 @@ it('returns an error', async () => {
   await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
 
   expect(document.querySelector('p').textContent).toBe('Error :(');
+  expect(consoleOutput[1]).toBe(
+    '[Network error]: {}',
+  );
 });
 
 it('returns a GraphQL error', async () => {
