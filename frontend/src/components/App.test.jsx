@@ -2,7 +2,7 @@ import { MockedProvider } from '@apollo/client/testing';
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom';
 import App from './App';
 
 let container = null;
@@ -24,7 +24,7 @@ it('navigates home when you click the logo', () => {
   let testLocation;
 
   render(
-    <BrowserRouter>
+    <BrowserRouter initialEntries={['/news/1']}>
       <MockedProvider>
         <div>
           <App />
@@ -56,7 +56,7 @@ it("navigates home when you click the site's name", () => {
   let testLocation;
 
   render(
-    <BrowserRouter>
+    <BrowserRouter initialEntries={['/news/1']}>
       <MockedProvider>
         <div>
           <App />
@@ -85,10 +85,21 @@ it("navigates home when you click the site's name", () => {
 });
 
 it('navigates to /games when you click Games', () => {
+  let testLocation;
+
   render(
-    <BrowserRouter initialEntries={['/']}>
+    <BrowserRouter initialEntries={['/news/1']}>
       <MockedProvider>
-        <App />
+        <div>
+          <App />
+          <Route
+            path="*"
+            render={() => {
+              testLocation = window.location;
+              return null;
+            }}
+          />
+        </div>
       </MockedProvider>
     </BrowserRouter>,
     container,
@@ -99,16 +110,28 @@ it('navigates to /games when you click Games', () => {
     goToGamesLink.dispatchEvent(new MouseEvent('click', { bubbles: true }));
   });
 
+  expect(testLocation.pathname).toBe('/games');
   expect(document.querySelector('.content-container').textContent).toBe(
     'Games',
   );
 });
 
 it('navigates to /contact when you click Contact', () => {
+  let testLocation;
+
   render(
-    <BrowserRouter initialEntries={['/']}>
+    <BrowserRouter initialEntries={['/news/1']}>
       <MockedProvider>
-        <App />
+        <div>
+          <App />
+          <Route
+            path="*"
+            render={() => {
+              testLocation = window.location;
+              return null;
+            }}
+          />
+        </div>
       </MockedProvider>
     </BrowserRouter>,
     container,
@@ -119,16 +142,28 @@ it('navigates to /contact when you click Contact', () => {
     goToContactLink.dispatchEvent(new MouseEvent('click', { bubbles: true }));
   });
 
+  expect(testLocation.pathname).toBe('/contact');
   expect(document.querySelector('.content-container').textContent).toBe(
     'ContactEmail: easter.egg@email.comTel: 0118 999 881 999 119 7253',
   );
 });
 
 it('navigates to /about when you click About', () => {
+  let testLocation;
+
   render(
-    <BrowserRouter initialEntries={['/']}>
+    <BrowserRouter initialEntries={['/news/1']}>
       <MockedProvider>
-        <App />
+        <div>
+          <App />
+          <Route
+            path="*"
+            render={() => {
+              testLocation = window.location;
+              return null;
+            }}
+          />
+        </div>
       </MockedProvider>
     </BrowserRouter>,
     container,
@@ -139,6 +174,7 @@ it('navigates to /about when you click About', () => {
     goToAboutLink.dispatchEvent(new MouseEvent('click', { bubbles: true }));
   });
 
+  expect(testLocation.pathname).toBe('/about');
   expect(document.querySelector('.content-container').textContent).toBe(
     'AboutThis is an easter egg site...',
   );
