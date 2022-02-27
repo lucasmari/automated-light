@@ -107,7 +107,7 @@ it('returns a list of news', async () => {
     container,
   );
 
-  await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+  await act(() => new Promise((resolve) => { setTimeout(resolve, 0); }));
 
   expect(document.querySelector('.content-container').textContent).toBe(
     'NewsNew Easter EggWow, amazingPosted by: me<>',
@@ -124,7 +124,7 @@ it('returns an error', async () => {
     container,
   );
 
-  await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+  await act(() => new Promise((resolve) => { setTimeout(resolve, 0); }));
 
   expect(document.querySelector('p').textContent).toBe('Error :(');
   expect(consoleOutput[1]).toBe(
@@ -142,7 +142,7 @@ it('returns a GraphQL error', async () => {
     container,
   );
 
-  await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
+  await act(() => new Promise((resolve) => { setTimeout(resolve, 0); }));
 
   expect(consoleOutput[2]).toBe(
     '[GraphQL error]: []',
