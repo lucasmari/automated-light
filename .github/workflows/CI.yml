@@ -38,6 +38,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Docker-compose pull
+        run: docker-compose pull
+
+      - name: Docker Layer Caching
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
       - name: Start app
         run: |
           export DOCKER_BUILDKIT=1
