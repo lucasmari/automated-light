@@ -38,6 +38,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # test
       - name: Docker-compose pull
         run: docker-compose pull
 
