@@ -62,9 +62,9 @@ jobs:
         run: yarn install -s
         working-directory: ./frontend
 
-      - name: Run Cypress tests
-        run: yarn cypress run
-        working-directory: ./frontend
+      # - name: Run Cypress tests
+      #   run: yarn cypress run
+      #   working-directory: ./frontend
 
       - name: Stop app
         run: docker-compose down
